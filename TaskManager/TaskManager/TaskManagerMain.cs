@@ -13,7 +13,9 @@ namespace TaskManager
         {
             var taskManager = new TaskManager_Methods();
             taskManager.Add(args[0]);
-            Console.WriteLine(taskManager);
+            taskManager.Add(args[1]);
+            for (var i=0;i<taskManager.Count;i++)
+                 Console.WriteLine(taskManager.Tasks[i]);
         }
     }
 }

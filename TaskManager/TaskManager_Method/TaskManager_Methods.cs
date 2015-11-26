@@ -31,6 +31,7 @@ namespace TaskManager_Method
         }
 
         public int Count => count;
+        public List<string> Tasks => tasks; 
         public object SyncRoot { get; }
         public bool IsSynchronized { get; }
     }
