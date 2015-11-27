@@ -8,21 +8,24 @@ namespace TaskManager.Tests
     [TestClass]
     public class TaskManagerTests
     {
-        [TestMethod]
+
+        [TestMethod]     
         public void TestAddTask()
         {
-            var taskManager  = new TaskManager_Methods();
-            var newTask = "Go to school";
-            taskManager.Add(newTask);
+            var task = new Task("Go to school", DateTime.Today, Status.ToDo);          
+            var taskManager  = new TaskManager_Methods<Task>();
+            taskManager.Add(task);           
+            //taskManager.Add(task);
             taskManager.Count.ShouldEqual(1);
         }
 
         [TestMethod]
         public void TestAddMultipayTask()
         {
-            var taskManager = new TaskManager_Methods();
-            var newTask = "Go to work";
-            var secondTask = "Go to school";
+            var newTask = new Task("Go to school", DateTime.Today, Status.ToDo);
+            var secondTask = new Task("Go to school", DateTime.Today, Status.ToDo);
+            var taskManager = new TaskManager_Methods<Task>();
+           
             taskManager.Add(newTask);
             taskManager.Add(secondTask);
             taskManager.ShouldNotBeEmpty();
