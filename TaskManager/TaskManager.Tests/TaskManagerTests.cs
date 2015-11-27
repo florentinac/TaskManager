@@ -13,7 +13,7 @@ namespace TaskManager.Tests
         public void TestAddTask()
         {
             var task = new Task("Go to school", DateTime.Today, Status.ToDo);          
-            var taskManager  = new TaskManager_Methods<Task>();
+            var taskManager  = new TaskManager<Task>();
             taskManager.Add(task);           
             //taskManager.Add(task);
             taskManager.Count.ShouldEqual(1);
@@ -24,7 +24,7 @@ namespace TaskManager.Tests
         {
             var newTask = new Task("Go to school", DateTime.Today, Status.ToDo);
             var secondTask = new Task("Go to school", DateTime.Today, Status.ToDo);
-            var taskManager = new TaskManager_Methods<Task>();
+            var taskManager = new TaskManager<Task>();
            
             taskManager.Add(newTask);
             taskManager.Add(secondTask);

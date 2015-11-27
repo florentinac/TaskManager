@@ -10,17 +10,16 @@ namespace TaskManager_Method
 {
     public enum Status
     {
-        ToDo,
-        InProgress,
+        ToDo,  
         Done
         
     }
 
     public class Task
     {
-        public string taskName;
-        public DateTime date;
-        public Status status;
+        private string taskName;
+        private DateTime date;
+        private Status status;
 
         public Task()
         {          
@@ -32,42 +31,46 @@ namespace TaskManager_Method
             this.date = date;
             this.status = status;
         }
+
+        public string GetName => taskName;
+        public DateTime GetDate => date;
+        public Status GetStatus => status;
     }
 
 
-    public class TaskManager_Methods<T>:ICollection<T>
+    public class TaskManager<Task>:ICollection<Task>
     {     
-        private List<T> tasks = new List<T>();
+        private List<Task> tasks = new List<Task>();
         private int count=0;
                       
-        public void Add(T newTask)
+        public void Add(Task newTask)
         {
             if (newTask == null) throw new ArgumentNullException();
             tasks.Add(newTask);
             count++;
-        }
+        }       
 
         public void Clear()
         {
             throw new NotImplementedException();
         }
 
-        public bool Contains(T item)
+        public bool Contains(Task item)
         {
             throw new NotImplementedException();
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
+        public void CopyTo(Task[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        public bool Remove(T item)
+        public bool Remove(Task item)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        IEnumerator<Task> IEnumerable<Task>.GetEnumerator()
         {
             for (var i = 0; i < count; i++)
                 yield return tasks[i];
@@ -86,7 +89,7 @@ namespace TaskManager_Method
 
         public int Count => count;
         public bool IsReadOnly { get; }
-        public List<T> Tasks => tasks; 
+        public List<Task> Tasks => tasks; 
         public object SyncRoot { get; }
         public bool IsSynchronized { get; }
     }

@@ -14,15 +14,15 @@ namespace TaskManager
         {
             var taskName2 = "Go to work";
             var taskname = "Go to school";    
-            var task = new Task(args[0],DateTime.Today, Status.ToDo);
-            var secondTask = new Task(args[1], DateTime.Today, Status.InProgress);
-            var taskManager = new TaskManager_Methods<Task>();
+            var task = new Task(taskname,DateTime.Today, Status.ToDo);
+            var secondTask = new Task(taskName2, DateTime.Today, Status.ToDo);
+            var taskManager = new TaskManager<Task>();
 
             taskManager.Add(task);
             taskManager.Add(secondTask);
             for (var i = 0; i < taskManager.Count; i++)
             {
-                Console.WriteLine(taskManager.Tasks[i].status+" " + taskManager.Tasks[i].taskName+" "+ taskManager.Tasks[i].date);              
+                Console.WriteLine(taskManager);              
             }
         }
     }
