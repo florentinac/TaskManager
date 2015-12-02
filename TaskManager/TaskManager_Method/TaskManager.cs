@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,8 +12,7 @@ namespace TaskManager_Method
     public enum Status
     {
         ToDo,  
-        Done
-        
+        Done        
     }
 
     public class Task
@@ -22,7 +22,7 @@ namespace TaskManager_Method
         private Status status;
 
         public Task()
-        {          
+        {
         }
 
         public Task(string taskName, DateTime date, Status status)
@@ -33,22 +33,35 @@ namespace TaskManager_Method
         }
 
         public string GetName => taskName;
-        public DateTime GetDate => date;
-        public Status GetStatus => status;
+        public string GetDate => date.ToString("dd/MM/yy");
+        public string GetStatus => status.ToString();
     }
 
 
     public class TaskManager<Task>:ICollection<Task>
-    {     
+    {
         private List<Task> tasks = new List<Task>();
-        private int count=0;
-                      
+        private int count;
+
         public void Add(Task newTask)
         {
             if (newTask == null) throw new ArgumentNullException();
             tasks.Add(newTask);
             count++;
-        }       
+        }
+
+        public void SaveTask(string task)
+        {
+            using (var writer = new StreamWriter(@"C:\Users\Administrator\Documents\Visual Studio 2015\Projects\TaskManager\Tasks.txt", true))
+            {
+                writer.WriteLine(task);
+            }
+        }
+
+        public string[] GetTask()
+        {
+            return File.ReadAllLines((@"C:\Users\Administrator\Documents\Visual Studio 2015\Projects\TaskManager\Tasks.txt"));                   
+        }
 
         public void Clear()
         {
@@ -89,7 +102,7 @@ namespace TaskManager_Method
 
         public int Count => count;
         public bool IsReadOnly { get; }
-        public List<Task> Tasks => tasks; 
+        public List<Task> Tasks => tasks;
         public object SyncRoot { get; }
         public bool IsSynchronized { get; }
     }

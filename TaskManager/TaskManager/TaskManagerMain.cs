@@ -12,18 +12,41 @@ namespace TaskManager
     {
         static void Main(string[] args)
         {
-            var taskName2 = "Go to work";
-            var taskname = "Go to school";    
-            var task = new Task(taskname,DateTime.Today, Status.ToDo);
-            var secondTask = new Task(taskName2, DateTime.Today, Status.ToDo);
-            var taskManager = new TaskManager<Task>();
-
-            taskManager.Add(task);
-            taskManager.Add(secondTask);
-            for (var i = 0; i < taskManager.Count; i++)
+            if (args.Length > 0)
             {
-                Console.WriteLine(taskManager);              
+                var taskManager = new TaskManager<Task>();
+                if (args[0].Equals("get"))
+                {
+                    var lines=taskManager.GetTask();
+                    foreach (var line in lines)
+                    {
+                        Console.WriteLine("\t" + line);
+                    }
+                }
+
+                else
+                {
+                    for (var i = 1; i < args.Length - 1; i++)
+                    {
+                        var task = new Task(args[i + 1], DateTime.Now, Status.ToDo);
+
+                        taskManager.Add(task);
+                        Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
+                        var taskFile = task.GetName + " " + task.GetDate + " " + task.GetStatus;
+                        Console.WriteLine(taskFile);
+                        taskManager.SaveTask(taskFile);
+                    }
+                }
             }
+            else
+            {
+                Console.Write("The sitax of this product is:" +
+                              "\r\nADD:" +
+                              "\r\n     --message:  Specifiy the task to be added" +
+                              "\r\nGet: Get the existents Tasks");
+                Console.WriteLine(" ");
+            }
+
         }
     }
 }

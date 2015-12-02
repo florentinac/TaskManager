@@ -14,8 +14,7 @@ namespace TaskManager.Tests
         {
             var task = new Task("Go to school", DateTime.Today, Status.ToDo);          
             var taskManager  = new TaskManager<Task>();
-            taskManager.Add(task);           
-            //taskManager.Add(task);
+            taskManager.Add(task);                 
             taskManager.Count.ShouldEqual(1);
         }
 
