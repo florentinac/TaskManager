@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskManager_Method;
-using Task = TaskManager_Method.Task;
+using TaskManager;
+using Task = TaskManager.Task;
 
 namespace TaskManager
 {
@@ -14,7 +14,7 @@ namespace TaskManager
         {
             if (args.Length > 0)
             {
-                var taskManager = new TaskManager<Task>();
+                var taskManager = new TaskFunctionality();
                 if (args[0].Equals("get"))
                 {
                     var lines=taskManager.GetTask();
@@ -31,13 +31,9 @@ namespace TaskManager
                 else
                 {
                     for (var i = 1; i < args.Length - 1; i++)
-                    {
-                        var task = new Task(i, args[i + 1], DateTime.Now, Status.ToDo);
-                        taskManager.Add(task);
-                        Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
-                        var taskFile =task.GetId + " " + task.GetName + " " + task.GetDate + " " + task.GetStatus;
-                        Console.WriteLine(taskFile);
-                        taskManager.SaveTask(taskFile);
+                    {                      
+                        taskManager.Add(args[i+1]);
+                        Console.WriteLine("The task " + taskManager.Count + " was successfuly added");                       
                     }
                 }
             }

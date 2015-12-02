@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerMain", "TaskManager\TaskManagerMain.csproj", "{9666157B-1470-405D-80C6-DEBFFA888ACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager", "TaskManager_Method\TaskManager.csproj", "{8DD619C3-9D71-4A3B-8721-C0B499722C7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskFunctionality", "TaskManager_Method\TaskFunctionality.csproj", "{8DD619C3-9D71-4A3B-8721-C0B499722C7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Tests", "TaskManager.Tests\TaskManager.Tests.csproj", "{57628141-7504-4350-A5BC-E005A6F92F3F}"
 EndProject
