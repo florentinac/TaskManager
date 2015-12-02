@@ -23,16 +23,19 @@ namespace TaskManager
                         Console.WriteLine("\t" + line);
                     }
                 }
+                if (args[0].Equals("update"))
+                {
+                    taskManager.Update(int.Parse(args[1]));
+                }
 
                 else
                 {
                     for (var i = 1; i < args.Length - 1; i++)
                     {
-                        var task = new Task(args[i + 1], DateTime.Now, Status.ToDo);
-
+                        var task = new Task(i, args[i + 1], DateTime.Now, Status.ToDo);
                         taskManager.Add(task);
                         Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
-                        var taskFile = task.GetName + " " + task.GetDate + " " + task.GetStatus;
+                        var taskFile =task.GetId + " " + task.GetName + " " + task.GetDate + " " + task.GetStatus;
                         Console.WriteLine(taskFile);
                         taskManager.SaveTask(taskFile);
                     }
@@ -43,7 +46,8 @@ namespace TaskManager
                 Console.Write("The sitax of this product is:" +
                               "\r\nADD:" +
                               "\r\n     --message:  Specifiy the task to be added" +
-                              "\r\nGet: Get the existents Tasks");
+                              "\r\nGet: Get the existents Tasks"+
+                              "\r\nUpdate: put the Task to Done");
                 Console.WriteLine(" ");
             }
 

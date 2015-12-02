@@ -12,7 +12,7 @@ namespace TaskManager.Tests
         [TestMethod]     
         public void TestAddTask()
         {
-            var task = new Task("Go to school", DateTime.Today, Status.ToDo);          
+            var task = new Task(1,"Go to school", DateTime.Today, Status.ToDo);          
             var taskManager  = new TaskManager<Task>();
             taskManager.Add(task);                 
             taskManager.Count.ShouldEqual(1);
@@ -21,8 +21,8 @@ namespace TaskManager.Tests
         [TestMethod]
         public void TestAddMultipayTask()
         {
-            var newTask = new Task("Go to school", DateTime.Today, Status.ToDo);
-            var secondTask = new Task("Go to school", DateTime.Today, Status.ToDo);
+            var newTask = new Task(1,"Go to school", DateTime.Today, Status.ToDo);
+            var secondTask = new Task(2,"Go to school", DateTime.Today, Status.ToDo);
             var taskManager = new TaskManager<Task>();
            
             taskManager.Add(newTask);
@@ -32,5 +32,6 @@ namespace TaskManager.Tests
             taskManager.Tasks.ShouldContain(secondTask);
             taskManager.Tasks.ShouldContain(newTask);
         }
+     
     }
 }

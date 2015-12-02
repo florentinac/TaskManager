@@ -58,13 +58,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaskManager\TaskManager.csproj">
+    <ProjectReference Include="..\TaskManager\TaskManagerMain.csproj">
       <Project>{9666157b-1470-405d-80c6-debffa888acf}</Project>
-      <Name>TaskManager</Name>
+      <Name>TaskManagerMain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaskManager_Method\TaskManager_Method.csproj">
+    <ProjectReference Include="..\TaskManager_Method\TaskManager.csproj">
       <Project>{8dd619c3-9d71-4a3b-8721-c0b499722c7d}</Project>
-      <Name>TaskManager_Method</Name>
+      <Name>TaskManager</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
