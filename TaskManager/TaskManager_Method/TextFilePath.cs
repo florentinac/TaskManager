@@ -12,6 +12,7 @@ namespace TaskManager
         {
             this.actualPath = GetActualPath();
         }
+
         public string GetActualPath()
         {
             return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -27,6 +28,17 @@ namespace TaskManager
             if (!ValidatePath(name))
                 return Path.Combine(actualPath, name);
             return actualPath + name;
+        }
+
+        public bool FilePath(string name, out string path)
+        {
+            if (!ValidatePath(name))
+            {
+                path = Path.Combine(actualPath, name);
+                return false;
+            }
+            path = actualPath + name;
+            return true;
         }
     }
 }

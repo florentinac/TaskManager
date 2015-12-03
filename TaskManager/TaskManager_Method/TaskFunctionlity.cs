@@ -10,80 +10,47 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace TaskManager
-{
-    public enum Status
-    {
-        ToDo,
-        Done
-    }
-
-    public class Task
-    {
-        protected string taskName;
-        private DateTime date;
-        private Status status;
-        protected int id;
-
-        public Task()
-        {
-        }
-
-        public Task(int id, string taskName, DateTime date, Status status)
-        {
-            this.id = id;
-            this.taskName = taskName;
-            this.date = date;
-            this.status = status;
-        }
-
-        public string GetName => taskName;
-        public string GetDate => date.ToString("dd/MM/yy");
-        public string GetStatus => status.ToString();
-        public int GetId => id;
-    }
-
-    public class TaskFunctionality : ICollection<Task>
+{ 
+    public class TaskFunctionality : ICollection
     {
         private List<Task> tasks = new List<Task>();
         private int count;
         private TextFilePath textFilePath = new TextFilePath();
+        private IFileWrite fileWrite;
 
-        public void Add(string taskName, DateTime data)
+        public TaskFunctionality()
         {
-            var newTask = new Task(1, taskName, data, Status.ToDo);
-            tasks.Add(newTask);
-            ReturnNoLine(out count);
-            var taskFile = count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
-            SaveTask(taskFile);
+            fileWrite = new ClassIFileWriter();
         }
 
-        private void ReturnNoLine(out int count)
+        public TaskFunctionality(IFileWrite fileWrite)
         {
-            count = 1;
-            if (!textFilePath.ValidatePath("Tasks.txt"))
+            this.fileWrite = fileWrite;
+        }
+
+        public void Add(string taskName, DateTime data, string fileName)
+        {
+            string path;
+            var newTask = new Task(1, taskName, data, Task.Status.ToDo);        
+            tasks.Add(newTask);
+            ReturnNoLine(fileName, out count);
+            var taskFile = count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
+            textFilePath.FilePath(fileName, out path);
+            fileWrite.WriteLine(taskFile, path);
+           // SaveTask(taskFile, path);
+        }
+
+        private void ReturnNoLine(string fileName, out int count)
+        {
+            count = 1;            
+            if (!textFilePath.ValidatePath(fileName))
                 return;
-            using (var reader = File.OpenText(textFilePath.FilePath("Tasks.txt")))
+            using (var reader = File.OpenText(textFilePath.FilePath(fileName)))
             {
                 while (reader.ReadLine() != null)
                 {
                     count++;
                 }
-            }
-        }
-
-        public void Add(Task newTask)
-        {
-            if (newTask == null) throw new ArgumentNullException();
-            tasks.Add(newTask);
-            count++;
-        }
-
-        private void SaveTask(string task)
-        {
-            var path = textFilePath.FilePath("Tasks.txt");
-            using (var writer = new StreamWriter(path, true))
-            {
-                writer.WriteLine(task);
             }
         }
 
@@ -111,32 +78,7 @@ namespace TaskManager
                 }                   
             }
         }
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Contains(Task item)
-        {
-            var task = GetTask("Tasks.txt");
-            for (var j = 0; j < task.Length;)
-                if (task.Equals(item.GetId))
-                    return true;
-            return false;
-        }
-
-        public void CopyTo(Task[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Remove(Task item)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator<Task> IEnumerable<Task>.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             for (var i = 0; i < count; i++)
                 yield return tasks[i];
@@ -153,10 +95,20 @@ namespace TaskManager
             throw new NotImplementedException();
         }
 
-        public int Count => count;
-        public bool IsReadOnly { get; }
-        public List<Task> Tasks => tasks;
+        public int Count => count;      
         public object SyncRoot { get; }
         public bool IsSynchronized { get; }
     }
+
+    public class ClassIFileWriter : IFileWrite
+    {
+        public void WriteLine(string task, string path)
+        {
+            using (var writer = new StreamWriter(path, true))
+            {
+                writer.WriteLine(task);
+            }
+        }
+    }
+
 }
