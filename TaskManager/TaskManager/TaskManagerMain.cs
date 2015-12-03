@@ -69,7 +69,7 @@ namespace TaskManager
             {
                 if (args.Length > 1)
                 {                  
-                    taskManager.Update2(args[1]);
+                    taskManager.Update(args[1]);
                     Console.WriteLine("Update finished successfully!");
                 }
                 else
@@ -89,16 +89,21 @@ namespace TaskManager
                 {
                     var lines = taskManager.GetTask(args[2]);
 
-                    if (lines != null)
-                        foreach (var line in lines)
-                        {
-                            Console.WriteLine("\t" + line);
-                        }
-                    else
-                    {
-                        Console.WriteLine("Does not exists tasks. First you must add some new tasks");
-                    }
+                    WriteTask(lines);
                 }
+            }
+        }
+
+        private static void WriteTask(string[] lines)
+        {
+            if (lines != null)
+                foreach (var line in lines)
+                {
+                    Console.WriteLine("\t" + line);
+                }
+            else
+            {
+                Console.WriteLine("Does not exists tasks. First you must add some new tasks");
             }
         }
     }

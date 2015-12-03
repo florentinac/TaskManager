@@ -19,7 +19,6 @@ namespace TaskManager
 
     public class Task
     {
-
         protected string taskName;
         private DateTime date;
         private Status status;
@@ -35,7 +34,6 @@ namespace TaskManager
             this.taskName = taskName;
             this.date = date;
             this.status = status;
-
         }
 
         public string GetName => taskName;
@@ -57,7 +55,6 @@ namespace TaskManager
             ReturnNoLine(out count);
             var taskFile = count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
             SaveTask(taskFile);
-
         }
 
         private void ReturnNoLine(out int count)
@@ -88,7 +85,6 @@ namespace TaskManager
             {
                 writer.WriteLine(task);
             }
-
         }
 
         public string[] GetTask(string fileName)
@@ -100,35 +96,19 @@ namespace TaskManager
             return File.ReadAllLines(textFilePath.FilePath(fileName));
         }
 
-        public void Update2(string id)
+        public void Update(string id)
         {
             var tasks = GetTask("Tasks.txt");
-            if(tasks!=null)
-                for (var i = 0; i < tasks.Length; i++)
-                {
-                    var splitTask = tasks[i].Split(' ');
-                    if (splitTask[0].Equals(id))
-                    {
-                        var output = tasks[i].Replace("ToDo", "Done");
-                        tasks[i] = output;
-                        File.WriteAllLines(textFilePath.FilePath("Tasks.txt"), tasks);
-                    }                   
-                }
-
-        }
-
-        public void Update(int id)
-        {
-            StreamReader reading =
-                File.OpenText(textFilePath.FilePath("Tasks.txt"));
-            string str;
-            while ((str = reading.ReadLine()) != null)
+            if (tasks == null) return;
+            for (var i = 0; i < tasks.Length; i++)
             {
-                if (str.Contains("id"))
+                var splitTask = tasks[i].Split(' ');
+                if (splitTask[0].Equals(id))
                 {
-                    str.Replace("To Do", "Done");
-                    File.WriteAllText(textFilePath.FilePath("Tasks.txt"), str);
-                }
+                    var output = tasks[i].Replace("ToDo", "Done");
+                    tasks[i] = output;
+                    File.WriteAllLines(textFilePath.FilePath("Tasks.txt"), tasks);
+                }                   
             }
         }
 
@@ -136,7 +116,6 @@ namespace TaskManager
         {
             throw new NotImplementedException();
         }
-
 
         public bool Contains(Task item)
         {
