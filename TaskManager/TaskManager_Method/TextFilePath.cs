@@ -10,18 +10,23 @@ namespace TaskManager
 
         public TextFilePath()
         {
-            this.actualPath = GetPath();
+            this.actualPath = GetActualPath();
         }
-        private string GetPath()
+        public string GetActualPath()
         {
-            return actualPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+        }
+
+        public bool ValidatePath(string name)
+        {
+            return File.Exists(actualPath + name);
         }
 
         public string FilePath(string name)
         {
-            if(!File.Exists(actualPath+name))
-                return Path.Combine(actualPath,name);
+            if (!ValidatePath(name))
+                return Path.Combine(actualPath, name);
             return actualPath + name;
-        }       
+        }
     }
 }

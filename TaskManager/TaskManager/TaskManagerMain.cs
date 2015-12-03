@@ -12,41 +12,94 @@ namespace TaskManager
     {
         static void Main(string[] args)
         {
-            if (args.Length > 0)
+            if (args.Length <= 0)
+            {
+                Console.Write("The syntax of this product is:" +
+                              "\r\nADD: Add new task and save in a file" +
+                              "\r\n     --message:  Specifiy the task to be added" +
+                              "\r\n     --date: Specifiy the date for task" +
+                              "\r\nGET: Get the existents Tasks" +
+                              "\r\n     --fileName: Specify the fileName where is the Tasks" +
+                              "\r\nUPDATE: Update the Task with new status"+
+                              "\r\n     --id: Specifiy the task id");
+                Console.WriteLine(" ");
+            }
+            else
             {
                 var taskManager = new TaskFunctionality();
-                if (args[0].Equals("get"))
-                {
-                    var lines=taskManager.GetTask();
-                    foreach (var line in lines)
-                    {
-                        Console.WriteLine("\t" + line);
-                    }
-                }
-                if (args[0].Equals("update"))
-                {
-                    taskManager.Update(int.Parse(args[1]));
-                }
+                GetTask(args, taskManager);
+                UpdateTask(args, taskManager);
 
+                AddNewTask(args, taskManager);
+            }
+        }
+
+        private static void AddNewTask(string[] args, TaskFunctionality taskManager)
+        {
+            if (args[0].Equals("add"))
+            {
+                var date = DateTime.Now;
+                if (args.Length <= 1)
+                {
+                    Console.WriteLine(" --message: Specifiy the task to be added" +
+                                  "\r\n --date: Specifiy or not the date for task");
+                }
                 else
                 {
-                    for (var i = 1; i < args.Length - 1; i++)
-                    {                      
-                        taskManager.Add(args[i+1]);
+                    for (var i = 2; i < args.Length; i++)
+                    {
+                        if (i < args.Length-1 && args[i+1].Equals("date"))
+                        {
+                            date = DateTime.ParseExact(args[i+2], "dd-MM-yyyy",
+                                System.Globalization.CultureInfo.InvariantCulture);
+                            taskManager.Add(args[i], date);
+                            Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
+                            return;
+                        }
+                        taskManager.Add(args[i], date);
                         Console.WriteLine("The task " + taskManager.Count + " was successfuly added");                       
                     }
                 }
             }
-            else
-            {
-                Console.Write("The sitax of this product is:" +
-                              "\r\nADD:" +
-                              "\r\n     --message:  Specifiy the task to be added" +
-                              "\r\nGet: Get the existents Tasks"+
-                              "\r\nUpdate: put the Task to Done");
-                Console.WriteLine(" ");
-            }
+        }
 
+        private static void UpdateTask(string[] args, TaskFunctionality taskManager)
+        {
+            if (args[0].Equals("update"))
+            {
+                if (args.Length > 1)
+                {                  
+                    taskManager.Update2(args[1]);
+                    Console.WriteLine("Update finished successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("--id: Specifiy the task id");
+                }
+            }
+        }
+
+        private static void GetTask(string[] args, TaskFunctionality taskManager)
+        {
+            if (args[0].Equals("get"))
+            {
+                if (args.Length < 3)
+                    Console.Write("--fileName: Specifiy the file Name");
+                else
+                {
+                    var lines = taskManager.GetTask(args[2]);
+
+                    if (lines != null)
+                        foreach (var line in lines)
+                        {
+                            Console.WriteLine("\t" + line);
+                        }
+                    else
+                    {
+                        Console.WriteLine("Does not exists tasks. First you must add some new tasks");
+                    }
+                }
+            }
         }
     }
 }
