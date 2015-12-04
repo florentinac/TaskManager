@@ -22,7 +22,10 @@ namespace TaskManager
                               "\r\nGET: Get the existents Tasks" +
                               "\r\n     --fileName: Specify the fileName where are the Tasks" +
                               "\r\nUPDATE: Update the Task with new status"+
-                              "\r\n     --id: Specifiy the task id");
+                              "\r\n     --id: Specifiy the task id"+
+                              "\r\n          --status: Update status from ToDo to Done" +
+                              "\r\n          --date: Change Due Date, format for date dd-MM-yyyy");
+
                 Console.WriteLine(" ");
             }
             else

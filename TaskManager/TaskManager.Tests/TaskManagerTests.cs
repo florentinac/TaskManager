@@ -54,7 +54,7 @@ namespace TaskManager.Tests
         }
 
         [TestMethod]
-        public void TestUpdateTasks()
+        public void TestUpdateStatusTasks()
         {
             var stringTasks = new ClassIStringTasks();
             var taskManager = new TaskFunctionality(stringTasks);
@@ -63,8 +63,23 @@ namespace TaskManager.Tests
             var tasks = taskManager.GetTask("Tasks.txt");
             var expectedResult = new[] { "1 test 04/12/15 ToDo", "2 test2 04/12/15 ToDo" };
             CollectionAssert.AreEqual(tasks, expectedResult);
-            taskManager.Update("1");
+            taskManager.UpdateStatus("1");
             var expectedResultAfterUpdate = new[] { "1 test 04/12/15 Done", "2 test2 04/12/15 ToDo" };
+            CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
+        }
+
+        [TestMethod]
+        public void TestUpdateDateTasks()
+        {
+            var stringTasks = new ClassIStringTasks();
+            var taskManager = new TaskFunctionality(stringTasks);
+            taskManager.Add("test", DateTime.Now, "Tasks.txt");
+            taskManager.Add("test2", DateTime.Now, "Tasks.txt");
+            var tasks = taskManager.GetTask("Tasks.txt");
+            var expectedResult = new[] { "1 test 04/12/15 ToDo", "2 test2 04/12/15 ToDo" };
+            CollectionAssert.AreEqual(tasks, expectedResult);
+            taskManager.UpdateDate("2","17/11/16");
+            var expectedResultAfterUpdate = new[] { "1 test 04/12/15 ToDo", "2 test2 17/11/16 ToDo" };
             CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
         }
     }

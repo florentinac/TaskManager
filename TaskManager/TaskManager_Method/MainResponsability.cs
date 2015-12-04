@@ -49,7 +49,10 @@ namespace TaskManager
             {
                 if (args.Length > 1)
                 {
-                    taskManager.Update(args[2]);
+                    if(args[3].Equals("--status"))
+                        taskManager.UpdateStatus(args[2]);
+                    if(args[3].Equals("--date"))
+                        taskManager.UpdateDate(args[2], args[4]);
                     Console.WriteLine("Update finished successfully!");
                 }
                 else

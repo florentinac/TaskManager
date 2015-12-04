@@ -43,7 +43,7 @@ namespace TaskManager
             return fileWrite.GetTasks(fileName, count);        
         }
 
-        public void Update(string id)
+        public void UpdateStatus(string id)
         {
             var tasks = fileWrite.GetTasks("Tasks.txt", count);
             if (tasks == null) return;
@@ -58,6 +58,23 @@ namespace TaskManager
                 }                   
             }
         }
+
+        public void UpdateDate(string id, string date)
+        {
+            var tasks = fileWrite.GetTasks("Tasks.txt", count);
+            if (tasks == null) return;
+            for (var i = 0; i < tasks.Length; i++)
+            {
+                var splitTask = tasks[i].Split(' ');
+                if (splitTask[0].Equals(id))
+                {
+                    var output = tasks[i].Replace(splitTask[2], date);
+                    tasks[i] = output;
+                    fileWrite.Update(tasks);
+                }
+            }
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             for (var i = 0; i < count; i++)

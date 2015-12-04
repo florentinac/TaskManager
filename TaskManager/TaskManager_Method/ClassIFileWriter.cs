@@ -17,8 +17,7 @@ namespace TaskManager
         }
 
         public void WriteLine(string task, string path, string fileName)
-        {
-            //path = fileName;        
+        {    
             GetPath(fileName, out path);
             using (var writer = new StreamWriter(path, true))
             {
@@ -28,7 +27,6 @@ namespace TaskManager
 
         public void NoLine(string fileName, out int count)
         {
-
             count = 1;
             if (!textFilePath.ValidatePath(fileName))
                 return;
