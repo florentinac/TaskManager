@@ -30,42 +30,22 @@ namespace TaskManager
 
         public void Add(string taskName, DateTime data, string fileName)
         {
-            string path;
+            string path = null;
             var newTask = new Task(1, taskName, data, Task.Status.ToDo);        
             tasks.Add(newTask);
-            ReturnNoLine(fileName, out count);
+            fileWrite.NoLine(fileName, out count);
             var taskFile = count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
-            textFilePath.FilePath(fileName, out path);
-            fileWrite.WriteLine(taskFile, path);
-           // SaveTask(taskFile, path);
-        }
-
-        private void ReturnNoLine(string fileName, out int count)
-        {
-            count = 1;            
-            if (!textFilePath.ValidatePath(fileName))
-                return;
-            using (var reader = File.OpenText(textFilePath.FilePath(fileName)))
-            {
-                while (reader.ReadLine() != null)
-                {
-                    count++;
-                }
-            }
+            fileWrite.WriteLine(taskFile, path, fileName);           
         }
 
         public string[] GetTask(string fileName)
         {
-            if (!textFilePath.ValidatePath(fileName))
-                return null;
-            if (new FileInfo(textFilePath.FilePath(fileName)).Length == 0)
-                return null;
-            return File.ReadAllLines(textFilePath.FilePath(fileName));
+            return fileWrite.GetTasks(fileName, count);        
         }
 
         public void Update(string id)
         {
-            var tasks = GetTask("Tasks.txt");
+            var tasks = fileWrite.GetTasks("Tasks.txt", count);
             if (tasks == null) return;
             for (var i = 0; i < tasks.Length; i++)
             {
@@ -74,7 +54,7 @@ namespace TaskManager
                 {
                     var output = tasks[i].Replace("ToDo", "Done");
                     tasks[i] = output;
-                    File.WriteAllLines(textFilePath.FilePath("Tasks.txt"), tasks);
+                    fileWrite.Update(tasks);                   
                 }                   
             }
         }
@@ -100,15 +80,6 @@ namespace TaskManager
         public bool IsSynchronized { get; }
     }
 
-    public class ClassIFileWriter : IFileWrite
-    {
-        public void WriteLine(string task, string path)
-        {
-            using (var writer = new StreamWriter(path, true))
-            {
-                writer.WriteLine(task);
-            }
-        }
-    }
+   
 
 }

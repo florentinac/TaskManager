@@ -27,7 +27,7 @@ namespace TaskManager
                 {
                     if (args.Length > 3 && args[3].Equals("--date"))
                     {
-                        if (args.Length == 6)
+                        if (args.Length == 7)
                             fileName = args[6];
                         date = DateTime.ParseExact(args[4], "dd-MM-yyyy",
                                 System.Globalization.CultureInfo.InvariantCulture);
@@ -35,7 +35,7 @@ namespace TaskManager
                         Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
                         return;
                     }
-                    if (args.Length > 3 && args[3].Equals("--fileName"))
+                    if (args.Length > 3 && args[3].Equals("--filename"))
                         fileName = args[4];
                     taskManager.Add(args[2], date, fileName);
                     Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
@@ -63,13 +63,18 @@ namespace TaskManager
         {
             if (args[0].Equals("get"))
             {
-                if (args.Length == 0)
+                if (args.Length == 1)
                 {
                     var lines = taskManager.GetTask("Tasks.txt");
                     WriteTask(lines);
                 }              
                 else
-                {                    
+                {
+                    if (args.Length < 3)
+                    {
+                        Console.WriteLine("Specify the fileName where are the Tasks");
+                        return;
+                    }
                     var lines = taskManager.GetTask(args[2]);
                     WriteTask(lines);
                 }

@@ -17,9 +17,10 @@ namespace TaskManager
                 Console.Write("The syntax of this product is:" +
                               "\r\nADD: Add new task and save in a file" +
                               "\r\n     --message:  Specifiy the task to be added" +
-                              "\r\n     --date: Specifiy the date for task" +
+                              "\r\n     --date: Specifiy or not the date for task, the format for date is: dd-MM-yyyy" +
+                              "\r\n     --fileName: Specifiy or not the file for save the Tasks" +
                               "\r\nGET: Get the existents Tasks" +
-                              "\r\n     --fileName: Specify the fileName where is the Tasks" +
+                              "\r\n     --fileName: Specify the fileName where are the Tasks" +
                               "\r\nUPDATE: Update the Task with new status"+
                               "\r\n     --id: Specifiy the task id");
                 Console.WriteLine(" ");

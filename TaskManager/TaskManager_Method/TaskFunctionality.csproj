@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassIFileWriter.cs" />
     <Compile Include="IFileWrite.cs" />
     <Compile Include="MainResponsability.cs" />
     <Compile Include="Task.cs" />
