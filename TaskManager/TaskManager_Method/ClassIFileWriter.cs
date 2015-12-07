@@ -18,7 +18,7 @@ namespace TaskManager
 
         public void WriteLine(string task, string path, string fileName)
         {    
-            GetPath(fileName, out path);
+            GetPath(fileName, out path);           
             using (var writer = new StreamWriter(path, true))
             {
                 writer.WriteLine(task);
