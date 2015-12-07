@@ -32,13 +32,19 @@ namespace TaskManager.Tests
                     return;
                 }
         }
-
-        public void NoLine(string name, out int count)
+        public void GetId(string name, out int count)
         {
             count = 1;
-            for (int i = 0; i < tasksString.Length; i++)
+
+            for (var i = 0; i < tasksString.Length; i++)
+            {
                 if (tasksString[i] != null)
-                    count++;
+                {
+                    var task = tasksString[i].Split(' ');
+                    if (task[0].Equals("[NewTask]"))
+                        count++;
+                }
+            }       
         }
 
         public string[] GetTasks(string name, int count)
@@ -46,7 +52,10 @@ namespace TaskManager.Tests
             var result = new string[count];
             for (var i = 0; i < count; i++)
                 if (tasksString[i] != null)
-                    result[i] = tasksString[i];
+                {
+                    result[i] = tasksString[i].Trim(("[NewTask] ").ToCharArray());
+                    
+                }
             return result;
 
         }

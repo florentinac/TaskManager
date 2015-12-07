@@ -33,10 +33,12 @@ namespace TaskManager
             string path = null;
             var newTask = new Task(1, taskName, data, Task.Status.ToDo);        
             tasks.Add(newTask);
-            fileWrite.NoLine(fileName, out count);
-            var taskFile = count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
+            fileWrite.GetId(fileName, out count);                      
+            var taskFile ="[NewTask]" + " " + count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
             fileWrite.WriteLine(taskFile, path, fileName);           
         }
+
+       
 
         public string[] GetTask(string fileName)
         {
