@@ -47,17 +47,27 @@ namespace TaskManager
         {
             if (args[0].Equals("update"))
             {
-                if (args.Length > 1)
+                if (args.Length <= 1)
                 {
-                    if(args[3].Equals("--status"))
-                        taskManager.UpdateStatus(args[2]);
-                    if(args[3].Equals("--date"))
-                        taskManager.UpdateDate(args[2], args[4]);
-                    Console.WriteLine("Update finished successfully!");
+                    Console.WriteLine("Update the Task with new status" +
+                              "\r\n     --id: Specifiy the task id" +
+                              "\r\n          --status: Update status from ToDo to Done" +
+                              "\r\n          --date: Change Due Date, format for date dd-MM-yyyy");
                 }
                 else
                 {
-                    Console.WriteLine("--id: Specifiy the task id");
+                    if (args.Length > 1)
+                    {
+                        if (args[3].Equals("--status"))
+                            taskManager.UpdateStatus(args[2]);
+                        if (args[3].Equals("--date"))
+                            taskManager.UpdateDate(args[2], args[4]);
+                        Console.WriteLine("Update finished successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("--id: Specifiy the task id");
+                    }
                 }
             }
         }
@@ -65,21 +75,21 @@ namespace TaskManager
         public void GetTask(string[] args)
         {
             if (args[0].Equals("get"))
-            {
-                if (args.Length == 1)
-                {
-                    var lines = taskManager.GetTask("Tasks.txt");
-                    WriteTask(lines);
-                }              
-                else
-                {
-                    if (args.Length < 3)
+            {                            
+                    if (args.Length == 1)
                     {
-                        Console.WriteLine("Specify the fileName where are the Tasks");
-                        return;
+                        var lines = taskManager.GetTask("Tasks.txt");
+                        WriteTask(lines);
                     }
-                    var lines = taskManager.GetTask(args[2]);
-                    WriteTask(lines);
+                    else
+                    {
+                        if (args.Length < 3)
+                        {
+                            Console.WriteLine("Specify the fileName where are the Tasks");
+                            return;
+                        }
+                        var lines = taskManager.GetTask(args[2]);
+                        WriteTask(lines);                    
                 }
             }
         }

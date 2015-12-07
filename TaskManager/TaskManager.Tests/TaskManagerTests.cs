@@ -49,7 +49,7 @@ namespace TaskManager.Tests
             taskManager.Add("test", DateTime.Now, "Tasks.txt");
             taskManager.Add("test2", DateTime.Now, "Tasks.txt");
             var tasks = taskManager.GetTask("Tasks.txt");
-            var expectedResult = new[] {"1 test 04/12/15 ToDo", "2 test2 04/12/15 ToDo"};
+            var expectedResult = new[] {"1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo"};
             CollectionAssert.AreEqual(tasks,expectedResult);          
         }
 
@@ -61,10 +61,10 @@ namespace TaskManager.Tests
             taskManager.Add("test", DateTime.Now, "Tasks.txt");
             taskManager.Add("test2", DateTime.Now, "Tasks.txt");
             var tasks = taskManager.GetTask("Tasks.txt");
-            var expectedResult = new[] { "1 test 04/12/15 ToDo", "2 test2 04/12/15 ToDo" };
+            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo" };
             CollectionAssert.AreEqual(tasks, expectedResult);
             taskManager.UpdateStatus("1");
-            var expectedResultAfterUpdate = new[] { "1 test 04/12/15 Done", "2 test2 04/12/15 ToDo" };
+            var expectedResultAfterUpdate = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " Done", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo" };
             CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
         }
 
@@ -76,10 +76,10 @@ namespace TaskManager.Tests
             taskManager.Add("test", DateTime.Now, "Tasks.txt");
             taskManager.Add("test2", DateTime.Now, "Tasks.txt");
             var tasks = taskManager.GetTask("Tasks.txt");
-            var expectedResult = new[] { "1 test 04/12/15 ToDo", "2 test2 04/12/15 ToDo" };
+            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo" };
             CollectionAssert.AreEqual(tasks, expectedResult);
             taskManager.UpdateDate("2","17/11/16");
-            var expectedResultAfterUpdate = new[] { "1 test 04/12/15 ToDo", "2 test2 17/11/16 ToDo" };
+            var expectedResultAfterUpdate = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 17/11/16 ToDo" };
             CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
         }
     }

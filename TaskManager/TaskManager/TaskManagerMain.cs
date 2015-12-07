@@ -12,6 +12,7 @@ namespace TaskManager
     {
         static void Main(string[] args)
         {
+            var main = new MainResponsability();
             if (args.Length <= 0)
             {
                 Console.Write("The syntax of this product is:" +
@@ -28,14 +29,24 @@ namespace TaskManager
 
                 Console.WriteLine(" ");
             }
-            else
+            else if (args[0].Equals("add"))
             {
-                //var taskManager = new TaskFunctionality();
-                var main = new MainResponsability();
                 main.AddNewTask(args);
+            }
+            else if (args[0].Equals("get"))
+            {
                 main.GetTask(args);
+            }
+            else if (args[0].Equals("update"))
+            {
                 main.UpdateTask(args);
             }
-        }          
+            else
+            {
+                Console.WriteLine("Insert one Optione(add/get/update)");
+            }
+
+        }
+               
     }
 }
