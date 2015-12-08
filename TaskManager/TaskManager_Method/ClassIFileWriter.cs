@@ -29,7 +29,10 @@ namespace TaskManager
             count = 1;
             var tasks = GetEntiyerTasks(fileName, count);
             if (tasks == null)
+            {
                 count = 1;
+                return;
+            }
             for (var i = 0; i < tasks.Length; i++)
             {
                 var split = tasks[i].Split(' ');
@@ -50,8 +53,12 @@ namespace TaskManager
         public string[] GetTasks(string fileName, int count)
         {
             var tasks = GetEntiyerTasks(fileName, count);
+            if (tasks == null)
+                return null;
             for (var i = 0; i < tasks.Length; i++)
-                tasks[i] = tasks[i].Trim(("[NewTask]").ToCharArray());
+            {
+                tasks[i] = tasks[i].Trim(("[NewTask] ").ToCharArray());                
+            }
             return tasks;
         }
 

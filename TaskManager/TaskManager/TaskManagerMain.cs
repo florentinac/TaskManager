@@ -10,55 +10,52 @@ namespace TaskManager
 {
     class TaskManagerMain
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var options = new MainOptions();
 
-            CommandLine.Parser.Default.ParseArguments(args, options);
+            string invokedVerb = null;
+            object invokedVerbInstance = null;
 
-            Console.Write(options.Message);
-            Console.Write(options.Date);
-            Console.Write(options.Add);
-            Console.Write(options.FileName);
-            Console.Write(options.GetId);
-            Console.Write(options.Update);
+            var options = new Options();
+            TaskFunctionality taskManager = new TaskFunctionality();
 
-            //var main = new MainResponsability();
-            //if (args.Length <= 0)
-            //{
-            //    Console.Write("The syntax of this product is:" +
-            //                  "\r\nADD: Add new task and save in a file" +
-            //                  "\r\n     --message:  Specifiy the task to be added" +
-            //                  "\r\n     --date: Specifiy or not the date for task, the format for date is: dd-MM-yyyy" +
-            //                  "\r\n     --fileName: Specifiy or not the file for save the Tasks" +
-            //                  "\r\nGET: Get the existents Tasks" +
-            //                  "\r\n     --fileName: Specify the fileName where are the Tasks" +
-            //                  "\r\nUPDATE: Update the Task with new status"+
-            //                  "\r\n     --id: Specifiy the task id"+
-            //                  "\r\n          --status: Update status from ToDo to Done" +
-            //                  "\r\n          --date: Change Due Date, format for date dd-MM-yyyy");
+            if (!CommandLine.Parser.Default.ParseArguments(args, options,
+                (verb, subOptions) =>
+                {
+                    invokedVerb = verb;
+                    invokedVerbInstance = subOptions;
+                }))
+            {
+                options.GetUsage(invokedVerb);
+            }
+            if (invokedVerbInstance != null)
+            {
+                if (invokedVerb == "add")
+                {
+                    var addSubOptions = (AddSubOptions) invokedVerbInstance;
+                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDate, addSubOptions.GetFile);
+                    Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
 
-            //    Console.WriteLine(" ");
-            //}
-            //else if (args[0].Equals("add"))
-            //{
-            //    main.AddNewTask(args);
-            //}
-            //else if (args[0].Equals("get"))
-            //{
-            //{
-            //    main.GetTask(args);
-            //}
-            //else if (args[0].Equals("update"))
-            //{
-            //    main.UpdateTask(args);
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Insert one Optione(add/get/update)");
-            //}
+                }
 
+                if (invokedVerb == "update")
+                {
+                    var updateSubOptions = (UpdateSubOptions) invokedVerbInstance;
+                    if(updateSubOptions.UpdateDate==null)
+                        taskManager.UpdateStatus(updateSubOptions.GetId, updateSubOptions.GetStatus, updateSubOptions.GetFileName);
+                    else taskManager.UpdateDate(updateSubOptions.GetId, updateSubOptions.UpdateDate, updateSubOptions.GetFileName);
+                  
+                }
+
+                if (invokedVerb == "get")
+                {
+                    var getSubOptions = (GetSubOptions) invokedVerbInstance;
+
+                    taskManager.GetTask(getSubOptions.GetFile);
+                }
+            }
         }
-               
+
     }
+                   
 }
