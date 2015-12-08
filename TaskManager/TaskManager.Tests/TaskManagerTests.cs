@@ -16,26 +16,15 @@ namespace TaskManager.Tests
         {
             var stringTasks = new ClassIStringTasks();
             var taskManager = new TaskFunctionality(stringTasks);
-            taskManager.Add("test", "10-12-2013", "Tasks.txt");
+            taskManager.Add("test", DateTime.Now.ToString("d"), "Tasks.txt");
             taskManager.Count.ShouldEqual(1);
-        }
-
-        [TestMethod]
-        public void TestAddTaskAndChangeDate()
-        {       
-            var stringTasks = new ClassIStringTasks();
-            var taskManager = new TaskFunctionality(stringTasks);
-            var date = DateTime.ParseExact("26-02-2015", "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            taskManager.Add("test", "10-12-2013", "Tasks.txt");
-            taskManager.Count.ShouldEqual(1);
-        }
+        }      
 
         [TestMethod]
         public void TestCountWhenAddTwoTask()
         {
             var stringTasks = new ClassIStringTasks();
-            var taskManager = new TaskFunctionality(stringTasks);
-            var date = DateTime.ParseExact("26-02-2015", "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            var taskManager = new TaskFunctionality(stringTasks);       
             taskManager.Add("test", "10-12-2013", "Tasks.txt");
             taskManager.Add("test2", "10-12-2013", "Tasks.txt");
             taskManager.Count.ShouldEqual(2);
@@ -46,10 +35,10 @@ namespace TaskManager.Tests
         {          
             var stringTasks = new ClassIStringTasks();           
             var taskManager = new TaskFunctionality(stringTasks);
-            taskManager.Add("test", "10-12-2013", "Tasks.txt");
-            taskManager.Add("test2", "10-12-2013", "Tasks.txt");
+            taskManager.Add("test", DateTime.Now.ToString("d"), "Tasks.txt");
+            taskManager.Add("test2", DateTime.Now.ToString("d"), "Tasks.txt");
             var tasks = taskManager.GetTask("Tasks.txt");
-            var expectedResult = new[] {"1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo"};
+            var expectedResult = new[] {"1 test " + DateTime.Now.ToString("d") + " ToDo", "2 test2 " + DateTime.Now.ToString("d") + " ToDo"};
             CollectionAssert.AreEqual(tasks,expectedResult);          
         }
 
@@ -58,13 +47,13 @@ namespace TaskManager.Tests
         {
             var stringTasks = new ClassIStringTasks();
             var taskManager = new TaskFunctionality(stringTasks);
-            taskManager.Add("test", "10-12-2013", "Tasks.txt");
-            taskManager.Add("test2", "10-12-2013", "Tasks.txt");
+            taskManager.Add("test", DateTime.Now.ToString("d"), "Tasks.txt");
+            taskManager.Add("test2", DateTime.Now.ToString("d"), "Tasks.txt");
             var tasks = taskManager.GetTask("Tasks.txt");
-            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo" };
+            var expectedResult = new[] {"1 test " + DateTime.Now.ToString("d") + " ToDo","2 test2 " + DateTime.Now.ToString("d") + " ToDo" };
             CollectionAssert.AreEqual(tasks, expectedResult);
-            taskManager.UpdateStatus("1", "Done", "Task.txt");
-            var expectedResultAfterUpdate = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " Done", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo" };
+            taskManager.UpdateStatus("1", "Done", "Tasks.txt");
+            var expectedResultAfterUpdate = new[] {"[NewTask]" + " " + "1 test " + DateTime.Now.ToString("d") + " Done", "[NewTask]" + " " + "2 test2 " + DateTime.Now.ToString("d") + " ToDo" };
             CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
         }
 
@@ -73,13 +62,13 @@ namespace TaskManager.Tests
         {
             var stringTasks = new ClassIStringTasks();
             var taskManager = new TaskFunctionality(stringTasks);
-            taskManager.Add("test", "10-12-2013", "Tasks.txt");
-            taskManager.Add("test2", "10-12-2013", "Tasks.txt");
+            taskManager.Add("test", DateTime.Now.ToString("d"), "Tasks.txt");
+            taskManager.Add("test2", DateTime.Now.ToString("d"), "Tasks.txt");
             var tasks = taskManager.GetTask("Tasks.txt");
-            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 " + DateTime.Now.ToString("dd/MM/yy") + " ToDo" };
+            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("d") + " ToDo", "2 test2 " + DateTime.Now.ToString("d") + " ToDo" };
             CollectionAssert.AreEqual(tasks, expectedResult);
-            taskManager.UpdateDate("2","17/11/16", "Task.txt");
-            var expectedResultAfterUpdate = new[] { "1 test " + DateTime.Now.ToString("dd/MM/yy") + " ToDo", "2 test2 17/11/16 ToDo" };
+            taskManager.UpdateDate("2","11/17/16","Tasks.txt");
+            var expectedResultAfterUpdate = new[] { "[NewTask]" + " " + "1 test " + DateTime.Now.ToString("d") + " ToDo", "[NewTask]" + " " + "2 test2 17/11/16 ToDo" };
             CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
         }
     }

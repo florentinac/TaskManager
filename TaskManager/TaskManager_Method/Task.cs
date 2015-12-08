@@ -32,7 +32,7 @@ namespace TaskManager
         }
 
         public string GetName => taskName;
-        public string GetDate => date.ToString("dd/MM/yy");
+        //public string GetDate => date.ToString("dd/MM/yy");
         public string GetStatus => status.ToString();
         public int GetId => id;
     }

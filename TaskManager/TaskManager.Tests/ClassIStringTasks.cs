@@ -65,6 +65,18 @@ namespace TaskManager.Tests
             tasksString = tasks;
         }
 
+        public string[] GetEntiyerTasks(string fileName, int count)
+        {
+            var result = new string[count];
+            for (var i = 0; i < count; i++)
+                if (tasksString[i] != null)
+                {
+                    result[i] = tasksString[i];
+
+                }
+            return result;
+        }
+
         public void CopyTo(Array array, int index)
         {
             throw new NotImplementedException();

@@ -57,7 +57,7 @@ namespace TaskManager
                 return null;
             for (var i = 0; i < tasks.Length; i++)
             {
-                tasks[i] = tasks[i].Trim(("[NewTask] ").ToCharArray());                
+                tasks[i] = tasks[i].Remove(0, 10);                  
             }
             return tasks;
         }

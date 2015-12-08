@@ -39,7 +39,7 @@ namespace TaskManager
             tasks.Add(newTask);
             fileWrite.GetId(fileName, out count);           
                        
-            var taskFile ="[NewTask]" + " " + count + " " + newTask.GetName + " " + newTask.GetDate + " " + newTask.GetStatus;
+            var taskFile ="[NewTask]" + " " + count + " " + newTask.GetName + " " + tempDate.ToString("d") + " " + newTask.GetStatus;
             fileWrite.WriteLine(taskFile, path, fileName);           
         }
 
@@ -70,15 +70,12 @@ namespace TaskManager
 
         public void UpdateStatus(string id, string status, string fileName)
         {
-            var entryTask = new ClassIFileWriter();
-            if (status == null)
-                status = "Done";
-            var tasks = entryTask.GetEntiyerTasks("Tasks.txt", count);
-            if (tasks == null) return;
+            string[] tasks;
+            if (!ValidationOfParameters(ref status, ref fileName, out tasks)) return;
             for (var i = 0; i < tasks.Length; i++)
             {
                 var splitTask = tasks[i].Split(' ');
-                if (splitTask[0].Equals(id))
+                if (splitTask[1].Equals(id))
                 {
                     var output = tasks[i].Replace("ToDo", status);
                     tasks[i] = output;
@@ -87,21 +84,40 @@ namespace TaskManager
             }
         }
 
+        private bool ValidationOfParameters(ref string status, ref string fileName, out string[] tasks)
+        {            
+            if (status == null)
+                status = "Done";
+            if (fileName == null)
+                fileName = "Tasks.txt";
+            if (!IsTasks(fileName, out tasks)) return false;
+            return true;
+        }
+
         public void UpdateDate(string id, string date, string fileName)
         {
-            var entryTask = new ClassIFileWriter();
-            var tasks = entryTask.GetEntiyerTasks(fileName, count);
-            if (tasks == null) return;
+            string[] tasks;
+            if (fileName == null)
+                fileName = "Tasks.txt";
+            DateTime tempDate = TempDate(date);          
+            if (!IsTasks(fileName, out tasks)) return;
             for (var i = 0; i < tasks.Length; i++)
             {
                 var splitTask = tasks[i].Split(' ');
-                if (splitTask[0].Equals(id))
+                if (splitTask[1].Equals(id))
                 {
-                    var output = tasks[i].Replace(splitTask[2], date);
+                    var output = tasks[i].Replace(splitTask[3], tempDate.ToString("dd/MM/yy"));
                     tasks[i] = output;
                     fileWrite.Update(tasks);
                 }
             }
+        }
+
+        private bool IsTasks(string fileName, out string[] tasks)
+        {           
+            tasks = fileWrite.GetEntiyerTasks(fileName, count);
+            if (tasks == null) return false;
+            return true;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
