@@ -46,6 +46,16 @@ namespace TaskManager
         public string GetFile { get; set; }
     }
 
+    public class SortSubOptions
+    {
+        [Option('a', "asscending", HelpText = "Sort Ascending the Tasks by Date")]
+        public string GetAsscending { get; set; }
+
+        [Option('d', "descending", HelpText = "Sort Descending the Tasks by Date")]
+        public string GetDescending { get; set; }
+
+    }
+
     public class Options
     {       
 
@@ -57,6 +67,9 @@ namespace TaskManager
 
         [VerbOption("get", HelpText = "Get the existents Tasks.")]
         public GetSubOptions GetTasks { get; set; }
+
+        [VerbOption("sort", HelpText = "Sort the Tasks.")]
+        public GetSubOptions GetSort { get; set; }
 
         [HelpVerbOption]
         public string GetUsage(string verb)

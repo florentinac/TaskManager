@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
@@ -111,6 +112,46 @@ namespace TaskManager
                     fileWrite.Update(tasks);
                 }
             }
+        }
+
+        public void SortAscending(string fileName)
+        {           
+            var tasks = fileWrite.GetTasks(fileName, count);
+            DateTime[] date = new DateTime[tasks.Length];
+            GetDateFromString(tasks, date);
+            SortTasksAscending(date,ref tasks);         
+           
+            foreach (var task in tasks)
+                    Console.WriteLine(task);
+
+        }
+
+        private static void GetDateFromString(string[] tasks, DateTime[] date)
+        {
+            for (var i = 0; i < tasks.Length; i++)
+            {
+                var splitTask = tasks[i].Split(' ');
+                for (var j = 0; j < splitTask.Length; j++)
+                {
+                    DateTime tempDate;
+                    if (DateTime.TryParse(splitTask[j], out tempDate))
+                    {
+                        date[i] = tempDate;
+                    }
+                }
+            }
+        }
+
+        private static void SortTasksAscending(DateTime[] date, ref string[] tasks)
+        {
+            for (var i = 0; i < date.Length; i++)
+                for (var j = 1 + 1; j < date.Length; j++)
+                    if (date[i].CompareTo(date[j]) >= 0)
+                    {
+                        var temp = tasks[i];
+                        tasks[i] = tasks[j];
+                        tasks[j] = temp;
+                    }           
         }
 
         private bool IsTasks(string fileName, out string[] tasks)

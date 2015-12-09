@@ -53,6 +53,12 @@ namespace TaskManager
 
                     taskManager.GetTask(getSubOptions.GetFile);
                 }
+
+                if (invokedVerb == "sort")
+                {
+                   // var sortSubOptions = (SortSubOptions)invokedVerbInstance;
+                    taskManager.SortAscending("Tasks.txt");
+                }
             }
         }
 
