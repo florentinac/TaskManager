@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -9,12 +10,27 @@ using TaskManager;
 namespace TaskManager
 {
     class TaskManagerMain
-    {
+    {       
         private static void Main(string[] args)
         {
-
+            string connetionString = null;
+            SqlConnection cnn;          
+            connetionString =
+                @"Data Source=tcp:192.168.97.22\SQLEXPRESS,1433;Initial Catalog=TaskManager;User ID=sa;Password=12345xx**";
+            cnn = new SqlConnection(connetionString);
+            try
+            {
+                cnn.Open();
+                Console.WriteLine("Connection Open ! ");
+                cnn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Can not open connection ! ");
+            }
             string invokedVerb = null;
             object invokedVerbInstance = null;
+           
 
             var options = new Options();
             TaskFunctionality taskManager = new TaskFunctionality();
@@ -56,11 +72,20 @@ namespace TaskManager
 
                 if (invokedVerb == "sort")
                 {
-                   // var sortSubOptions = (SortSubOptions)invokedVerbInstance;
+                    var sortSubOptions = (SortSubOptions)invokedVerbInstance;
                     taskManager.SortAscending("Tasks.txt");
                 }
-            }
+
+                if (invokedVerb == "search")
+                {
+                    var searchSubOptions = (SearchSubOptions)invokedVerbInstance;
+                   taskManager.Search(searchSubOptions.GetWord,searchSubOptions.GetFile);                 
+                }
+             }
+        
         }
+        
+       
 
     }
                    

@@ -159,7 +159,7 @@ namespace TaskManager
             tasks = fileWrite.GetEntiyerTasks(fileName, count);
             if (tasks == null) return false;
             return true;
-        }
+        }       
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -181,6 +181,42 @@ namespace TaskManager
         public int Count => count;      
         public object SyncRoot { get; }
         public bool IsSynchronized { get; }
+
+
+        public void Search(string word, string fileName)
+        {
+            if (fileName == null)
+                fileName = "Tasks.txt";
+            var tasks = fileWrite.GetTasks(fileName, count);
+            for (var i = 0; i < tasks.Length; i++)
+            {
+                var task = tasks[i].Split(' ');
+
+                for (var j = 0; j < task.Length - 1; j++)
+                    if (task[j].Equals(word))
+                    {
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.Write(task[j] + " ");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.ResetColor();
+                        Console.Write(task[j] + " ");
+                    }
+                if (task[task.Length - 1].Equals(word))
+                {
+                    Console.BackgroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(task[task.Length - 1] + " ");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    
+                    Console.WriteLine(task[task.Length - 1] + " ");
+                }
+            }
+        }
     }
 
    

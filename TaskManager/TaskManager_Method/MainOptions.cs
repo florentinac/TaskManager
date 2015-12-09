@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using CommandLine;
@@ -56,20 +57,31 @@ namespace TaskManager
 
     }
 
+    public class SearchSubOptions
+    {
+        [Option('f', "fileName", HelpText = "Specify the fileName where are the Tasks")]      
+        public string GetFile { get; set; }
+        [Option('w', "word",Required = true, HelpText = "Specify the word for search")]
+        public string GetWord { get; set; }
+    }
+
     public class Options
     {       
 
         [VerbOption("add", HelpText = "Add new task and save in a file.")]
-        public AddSubOptions GetAdd { get; set; }
+        public AddSubOptions GetAddParameters { get; set; }
 
         [VerbOption("update", HelpText = "Update the Task with new status or date.")]
-        public UpdateSubOptions Update { get; set; }
+        public UpdateSubOptions GetUpdateParameters { get; set; }
 
         [VerbOption("get", HelpText = "Get the existents Tasks.")]
-        public GetSubOptions GetTasks { get; set; }
+        public GetSubOptions GetParameters { get; set; }
 
         [VerbOption("sort", HelpText = "Sort the Tasks.")]
-        public GetSubOptions GetSort { get; set; }
+        public SortSubOptions GetSortParameters { get; set; }
+
+        [VerbOption("search", HelpText = "Sort the Tasks.")]
+        public SearchSubOptions  GetSearchParameters{ get; set; }
 
         [HelpVerbOption]
         public string GetUsage(string verb)
