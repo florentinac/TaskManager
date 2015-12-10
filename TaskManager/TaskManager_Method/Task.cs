@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,25 +16,30 @@ namespace TaskManager
         }
 
         private string taskName;
-        private DateTime date;
+        private DateTime? date;
         private Status status;
-        private int id; 
+        private string description;
+        private DateTime? duDate;
 
         public Task()
         {
         }
 
-        public Task(int id, string taskName, DateTime date, Status status)
-        {
-            this.id = id;
+        public Task( string taskName, string description, DateTime date, DateTime? duDate, Status status)
+        {            
             this.taskName = taskName;
+            this.description = description;
             this.date = date;
+            this.duDate = duDate;
             this.status = status;
         }
+    
+        public string GetTaskString(Task task, int count)
+        {
+            var taskString = "[NewTask]" + " " + count + " " + task.taskName + " " + task.description + " "+ 
+                              task.date?.ToString("d",CultureInfo.InvariantCulture) + " " + task.duDate?.ToString("G", CultureInfo.InvariantCulture) + " " + task.status;
+            return taskString;
 
-        public string GetName => taskName;
-        //public string GetDate => date.ToString("dd/MM/yy");
-        public string GetStatus => status.ToString();
-        public int GetId => id;
+        }
     }
 }

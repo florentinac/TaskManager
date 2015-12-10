@@ -37,7 +37,7 @@ namespace TaskManager
                 if (invokedVerb == "add")
                 {
                     var addSubOptions = (AddSubOptions) invokedVerbInstance;
-                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDate, addSubOptions.GetFile);
+                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription,addSubOptions.AddDate, addSubOptions.AddDuDate, addSubOptions.GetFile);
                     Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
 
                 }

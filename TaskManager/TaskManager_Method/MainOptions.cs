@@ -23,6 +23,12 @@ namespace TaskManager
         [Option('f', "fileName", HelpText = "Specifiy or not the file for save the Tasks")]
         public string GetFile { get; set; }
 
+        [Option("description", HelpText = "Specifiy the description of task")]
+        public string AddDescription { get; set; }
+
+        [Option("duDate", HelpText = "Specifiy the du date for task, the format for date is: dd-MM-yyyy")]
+        public string AddDuDate { get; set; }
+
     }
 
     public class UpdateSubOptions

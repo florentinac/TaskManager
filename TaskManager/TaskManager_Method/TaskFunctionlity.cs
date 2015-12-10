@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿namespace TaskManager
+{
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
-namespace TaskManager
-{ 
     public class TaskFunctionality : ICollection
     {
         private List<Task> tasks = new List<Task>();
-        private int count;        
+                   
         private IFileWrite fileWrite;
+        private int count;
 
         public TaskFunctionality()
         {
@@ -28,42 +21,36 @@ namespace TaskManager
             this.fileWrite = fileWrite;
         }
 
-        public void Add(string taskName, string txtDate, string fileName)
-        {
-            if (fileName == null)
-                fileName = "Tasks.txt";
-
-            var tempDate = TempDate(txtDate);
-            string path = null;
-            var newTask = new Task(1, taskName, tempDate, Task.Status.ToDo); 
+        public void Add(string taskName, string description, string txtDate, string txtDuDate, string fileName)
+        {           
+            fileName = Validator.FileName(fileName);
+            var tempDate = Validator.TempDate(txtDate);
+            var tempDuDate = Validator.DuTempDate(txtDuDate);
+            if(tempDuDate!=null)
+                if (!Validator.DuDate(tempDuDate, tempDate))
+                {
+                    return;
+                }
+   
+            var newTask = new Task(taskName, description, tempDate, tempDuDate, Task.Status.ToDo); 
                    
-            tasks.Add(newTask);
-            fileWrite.GetId(fileName, out count);           
-                       
-            var taskFile ="[NewTask]" + " " + count + " " + newTask.GetName + " " + tempDate.ToString("d") + " " + newTask.GetStatus;
-            fileWrite.WriteLine(taskFile, path, fileName);           
+            tasks.Add(newTask);            
+            SaveTask(fileName, newTask);
         }
 
-        private static DateTime TempDate(string txtDate)
+        private void SaveTask(string fileName, Task newTask)
         {
-            DateTime tempDate;
-            if (txtDate == null)
-            {
-                tempDate = DateTime.Now;
-                return tempDate;
-            }
-            if (!DateTime.TryParse(txtDate, out tempDate))
-            {
-                tempDate = DateTime.Now;
-                Console.WriteLine("The Date is invalid, will be set to the current day");
-            }
-            return tempDate;
-        }        
+            string path = null;
+            fileWrite.GetId(fileName, out count);
+            var taskstring = newTask.GetTaskString(newTask, count);
+
+            fileWrite.WriteLine(taskstring, path, fileName);
+        }
+
 
         public string[] GetTask(string fileName)
         {
-            if (fileName == null)
-                fileName = "Tasks.txt";
+            fileName = Validator.FileName(fileName);
             var result = fileWrite.GetTasks(fileName, count);
             if (result == null)
             {
@@ -91,11 +78,9 @@ namespace TaskManager
         }
 
         private bool ValidationOfParameters(ref string status, ref string fileName, out string[] tasks)
-        {            
-            if (status == null)
-                status = "Done";
-            if (fileName == null)
-                fileName = "Tasks.txt";
+        {
+            status = Validator.Status(status);
+            fileName = Validator.FileName(fileName);
             if (!IsTasks(fileName, out tasks)) return false;
             return true;
         }
@@ -103,9 +88,8 @@ namespace TaskManager
         public void UpdateDate(string id, string date, string fileName)
         {
             string[] tasks;
-            if (fileName == null)
-                fileName = "Tasks.txt";
-            DateTime tempDate = TempDate(date);          
+            fileName = Validator.FileName(fileName);
+            DateTime tempDate = Validator.TempDate(date);          
             if (!IsTasks(fileName, out tasks)) return;
             for (var i = 0; i < tasks.Length; i++)
             {
@@ -194,11 +178,11 @@ namespace TaskManager
         }
 
         private bool IsTasks(string fileName, out string[] tasks)
-        {           
+        {
             tasks = fileWrite.GetEntiyerTasks(fileName, count);
             if (tasks == null) return false;
             return true;
-        }       
+        }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
