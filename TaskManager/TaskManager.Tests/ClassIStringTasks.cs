@@ -87,5 +87,10 @@ namespace TaskManager.Tests
             for (var i = 0; i < tasksString.Length; i++)
                 yield return tasksString[i];
         }
+
+        public void Sort(string[] tasks)
+        {
+            tasksString =tasks;
+        }
     }
 }

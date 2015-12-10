@@ -47,6 +47,11 @@ namespace TaskManager
         private static DateTime TempDate(string txtDate)
         {
             DateTime tempDate;
+            if (txtDate == null)
+            {
+                tempDate = DateTime.Now;
+                return tempDate;
+            }
             if (!DateTime.TryParse(txtDate, out tempDate))
             {
                 tempDate = DateTime.Now;
@@ -121,8 +126,17 @@ namespace TaskManager
             GetDateFromString(tasks, date);
             SortTasksAscending(date,ref tasks);         
            
-            foreach (var task in tasks)
-                    Console.WriteLine(task);
+            fileWrite.Sort(tasks);
+
+        }
+        public void SortDescending(string fileName)
+        {
+            var tasks = fileWrite.GetTasks(fileName, count);
+            DateTime[] date = new DateTime[tasks.Length];
+            GetDateFromString(tasks, date);
+            SortTasksDescending(date, ref tasks);
+
+            fileWrite.Sort(tasks);
 
         }
 
@@ -141,17 +155,42 @@ namespace TaskManager
                 }
             }
         }
+        private static void SortTasksDescending(DateTime[] date, ref string[] tasks)
+        {
+            for (var i = 1; i < date.Length; i++)
+                for (var k = i; k > 0; k--)
+                {
+                    TimeSpan difference = date[k] - date[k - 1];
+                    double days = difference.TotalDays;
+                    if (days > 0)
+                    {
+                        Swap(ref tasks[k], ref tasks[k - 1]);
+                        Swap(ref date[k], ref date[k - 1]);
+                    }
 
+                }
+        }
         private static void SortTasksAscending(DateTime[] date, ref string[] tasks)
         {
-            for (var i = 0; i < date.Length; i++)
-                for (var j = 1 + 1; j < date.Length; j++)
-                    if (date[i].CompareTo(date[j]) >= 0)
+            for (var i = 1; i < date.Length; i++)
+                for(var k=i;k>0;k--)
+                { 
+                    TimeSpan difference = date[k] - date[k - 1];
+                    double days = difference.TotalDays;
+                    if (days < 0)
                     {
-                        var temp = tasks[i];
-                        tasks[i] = tasks[j];
-                        tasks[j] = temp;
-                    }           
+                        Swap(ref tasks[k], ref tasks[k - 1]);
+                        Swap(ref date[k], ref date[k-1]);
+                    }
+
+                }                      
+        }
+
+        private static void Swap<T>(ref T x, ref T y)
+        {
+            var temp = x;
+            x = y;
+            y = temp;
         }
 
         private bool IsTasks(string fileName, out string[] tasks)
@@ -188,34 +227,29 @@ namespace TaskManager
             if (fileName == null)
                 fileName = "Tasks.txt";
             var tasks = fileWrite.GetTasks(fileName, count);
-            for (var i = 0; i < tasks.Length; i++)
+            for (var i = 0; i < tasks.Length-1; i++)
             {
                 var task = tasks[i].Split(' ');
-
-                for (var j = 0; j < task.Length - 1; j++)
-                    if (task[j].Equals(word))
-                    {
-                        Console.BackgroundColor = ConsoleColor.Red;
-                        Console.Write(task[j] + " ");
-                        Console.ResetColor();
-                    }
-                    else
-                    {
-                        Console.ResetColor();
-                        Console.Write(task[j] + " ");
-                    }
-                if (task[task.Length - 1].Equals(word))
-                {
-                    Console.BackgroundColor = ConsoleColor.Blue;
-                    Console.WriteLine(task[task.Length - 1] + " ");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    
-                    Console.WriteLine(task[task.Length - 1] + " ");
-                }
+                WriteMatchTasks(word, task);
             }
+            var taskLast = tasks[tasks.Length - 1].Split(' ');
+            WriteMatchTasks(word, taskLast);
+        }
+
+        private static void WriteMatchTasks(string word, string[] taskLast)
+        {
+            for (var j = 0; j < taskLast.Length; j++)
+                if (String.Equals(taskLast[j], word, StringComparison.OrdinalIgnoreCase))
+                {
+                    for (var k = 0; k < j; k++)
+                        Console.Write(taskLast[k] + " ");
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    Console.Write(taskLast[j]);
+                    Console.ResetColor();                  
+                    for (var k = j + 1; k < taskLast.Length-1; k++)
+                        Console.Write(" "+ taskLast[k]);
+                    Console.WriteLine(taskLast[taskLast.Length-1]);
+                }
         }
     }
 

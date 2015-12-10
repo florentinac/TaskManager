@@ -80,7 +80,7 @@ namespace TaskManager
         [VerbOption("sort", HelpText = "Sort the Tasks.")]
         public SortSubOptions GetSortParameters { get; set; }
 
-        [VerbOption("search", HelpText = "Sort the Tasks.")]
+        [VerbOption("search", HelpText = "Search a word in Tasks.")]
         public SearchSubOptions  GetSearchParameters{ get; set; }
 
         [HelpVerbOption]

@@ -137,5 +137,35 @@ namespace TaskManager.Tests
             var expectedResultAfterUpdate = new[] { "[NewTask]" + " " + "1 test " + DateTime.Now.ToString("d") + " ToDo", "[NewTask]" + " " + "2 test2 17/11/16 ToDo" };
             CollectionAssert.AreEqual(stringTasks, expectedResultAfterUpdate);
         }
+
+        [TestMethod]
+        public void TestGetAscendingDateTasks()
+        {
+            var stringTasks = new ClassIStringTasks();
+            var taskManager = new TaskFunctionality(stringTasks);           
+            taskManager.Add("test", DateTime.Now.ToString("d"), "");
+            taskManager.Add("test2", "11/17/15", "");
+            var tasks = taskManager.GetTask("");
+            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("d") + " ToDo", "2 test2 11/17/2015 ToDo", };
+            CollectionAssert.AreEqual(tasks, expectedResult);
+            taskManager.SortAscending("Tasks.txt");
+            var sortTasksResult = new[] {"2 test2 11/17/2015 ToDo", "1 test " + DateTime.Now.ToString("d") + " ToDo" };
+            CollectionAssert.AreEqual(stringTasks, sortTasksResult);
+        }
+
+        [TestMethod]
+        public void TestGetDescendingDateTasks()
+        {
+            var stringTasks = new ClassIStringTasks();
+            var taskManager = new TaskFunctionality(stringTasks);
+            taskManager.Add("test", DateTime.Now.ToString("d"), "");
+            taskManager.Add("test2", "11/17/15", "");
+            var tasks = taskManager.GetTask("");
+            var expectedResult = new[] { "1 test " + DateTime.Now.ToString("d") + " ToDo", "2 test2 11/17/2015 ToDo"};
+            CollectionAssert.AreEqual(tasks, expectedResult);
+            taskManager.SortDescending("Tasks.txt");
+            var sortTasksResult = new[] { "1 test " + DateTime.Now.ToString("d") + " ToDo", "2 test2 11/17/2015 ToDo"};
+            CollectionAssert.AreEqual(stringTasks, sortTasksResult);
+        }
     }
 }

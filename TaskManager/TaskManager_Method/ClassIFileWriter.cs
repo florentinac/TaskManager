@@ -66,5 +66,11 @@ namespace TaskManager
         {
             File.WriteAllLines(textFilePath.FilePath("Tasks.txt"), tasks);
         }
+
+        public void Sort(string[] tasks)
+        {
+            foreach (var task in tasks)
+                Console.WriteLine(task); 
+        }
     }
 }

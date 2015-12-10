@@ -7,5 +7,6 @@
         string[] GetTasks(string fileName, int count);
         void Update(string[] tasks);
         string[] GetEntiyerTasks(string fileName, int count);
+        void Sort(string[] tasks);
     }
 }
