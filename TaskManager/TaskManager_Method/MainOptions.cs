@@ -26,7 +26,7 @@ namespace TaskManager
         [Option("description", HelpText = "Specifiy the description of task")]
         public string AddDescription { get; set; }
 
-        [Option("duDate", HelpText = "Specifiy the du date for task, the format for date is: dd-MM-yyyy")]
+        [Option("duDate", HelpText = "Specifiy the du date for task, the format for date is: dd-MM-YYYY hh:mm:ss.ff ")]
         public string AddDuDate { get; set; }
 
     }

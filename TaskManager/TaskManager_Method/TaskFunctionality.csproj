@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassIFileWriter.cs" />
+    <Compile Include="CreateXMLDoc.cs" />
     <Compile Include="DataBaseConnection.cs" />
     <Compile Include="IFileWrite.cs" />
     <Compile Include="MainOptions.cs" />

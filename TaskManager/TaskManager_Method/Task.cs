@@ -4,9 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace TaskManager
 {
+    [Serializable]
     class Task
     {
         public enum Status
@@ -40,6 +42,13 @@ namespace TaskManager
                               task.date?.ToString("d",CultureInfo.InvariantCulture) + " " + task.duDate?.ToString("G", CultureInfo.InvariantCulture) + " " + task.status;
             return taskString;
 
+        }
+
+
+        public static void StatusSaveTask(string fileName, Task newTask)
+        {
+           var createXmlDoc = new CreateXMLDoc(fileName);
+           createXmlDoc.AddNewNode(newTask.taskName, newTask.description, newTask.date, newTask.duDate, newTask.status.ToString());
         }
     }
 }

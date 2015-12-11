@@ -1,4 +1,8 @@
-﻿namespace TaskManager
+﻿using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
+namespace TaskManager
 {
     using System;
     using System.Collections;
@@ -6,8 +10,7 @@
 
     public class TaskFunctionality : ICollection
     {
-        private List<Task> tasks = new List<Task>();
-                   
+        private List<Task> tasks = new List<Task>();                
         private IFileWrite fileWrite;
         private int count;
 
@@ -22,43 +25,66 @@
         }
 
         public void Add(string taskName, string description, string txtDate, string txtDuDate, string fileName)
-        {           
-            fileName = Validator.FileName(fileName);
-            var tempDate = Validator.TempDate(txtDate);
-            var tempDuDate = Validator.DuTempDate(txtDuDate);
-            if(tempDuDate!=null)
-                if (!Validator.DuDate(tempDuDate, tempDate))
-                {
-                    return;
-                }
-   
-            var newTask = new Task(taskName, description, tempDate, tempDuDate, Task.Status.ToDo); 
+        {
+            var validateNameAndDescr = new ValidatorNameAndDescrition(taskName,description);
+            if (!validateNameAndDescr.ValidateName())
+                return;
+            var validateDateAndDuDate = new ValidatorDateAndDuDate(txtDate,txtDuDate);
+            DateTime tempDate = validateDateAndDuDate.TempDate();
+            DateTime? tempDuDate = validateDateAndDuDate.DuTempDate();
+            var validateFileAndStatus = new ValidatorFileAndStatus(fileName);
+                    
+            var newTask = new Task(taskName, validateNameAndDescr.ValidateDescripion(), tempDate, tempDuDate, Task.Status.ToDo); 
                    
             tasks.Add(newTask);            
-            SaveTask(fileName, newTask);
-        }
+            Task.StatusSaveTask(validateFileAndStatus.FileName(), newTask);
+        }        
 
-        private void SaveTask(string fileName, Task newTask)
+        //private void SaveTask(string fileName, Task newTask)
+        //{
+        //    IFormatter formatter = new BinaryFormatter();
+        //    var filePath = new TextFilePath();
+        //    var path = filePath.FilePath("MyFile.bin");
+        //    Stream stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
+        //    formatter.Serialize(stream, newTask);
+        //    stream.Close();
+
+        //   // string path = null;
+        //    fileWrite.GetId(fileName, out count);
+        //    var taskstring = newTask.GetTaskString(newTask, count);
+
+
+        //    fileWrite.WriteLine(taskstring, path, fileName);
+        //}
+
+        public void DeSerialize()
         {
-            string path = null;
-            fileWrite.GetId(fileName, out count);
-            var taskstring = newTask.GetTaskString(newTask, count);
+            var filePath = new TextFilePath();
+            var path = filePath.FilePath("MyFile.bin");
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            Task obj = (Task)formatter.Deserialize(stream);
+            stream.Close();
 
-            fileWrite.WriteLine(taskstring, path, fileName);
+            var taskstring = obj.GetTaskString(obj, count);
+
+            Console.WriteLine(taskstring);
         }
-
 
         public string[] GetTask(string fileName)
         {
-            fileName = Validator.FileName(fileName);
-            var result = fileWrite.GetTasks(fileName, count);
-            if (result == null)
-            {
-                Console.WriteLine("First you must add some Tasks");
-            }else
-                foreach (var task in result)
-                    Console.WriteLine(task);
+            DeSerialize();
+            var result = new[] {"ceva", "altceva"};
             return result;
+            //fileName = Validator.FileName(fileName);
+            //var result = fileWrite.GetTasks(fileName, count);
+            //if (result == null)
+            //{
+            //    Console.WriteLine("First you must add some Tasks");
+            //}else
+            //    foreach (var task in result)
+            //        Console.WriteLine(task);
+            //return result;
         }
 
         public void UpdateStatus(string id, string status, string fileName)
@@ -79,18 +105,20 @@
 
         private bool ValidationOfParameters(ref string status, ref string fileName, out string[] tasks)
         {
-            status = Validator.Status(status);
-            fileName = Validator.FileName(fileName);
-            if (!IsTasks(fileName, out tasks)) return false;
+            var validateFileAndStatus = new ValidatorFileAndStatus(fileName,status);
+            status = validateFileAndStatus.Status();
+            
+            if (!IsTasks(validateFileAndStatus.FileName(), out tasks)) return false;
             return true;
         }
 
         public void UpdateDate(string id, string date, string fileName)
         {
             string[] tasks;
-            fileName = Validator.FileName(fileName);
-            DateTime tempDate = Validator.TempDate(date);          
-            if (!IsTasks(fileName, out tasks)) return;
+            var validateFileAndStatus = new ValidatorFileAndStatus(fileName);
+            var validateDate = new ValidatorDateAndDuDate(date);          
+            DateTime tempDate = validateDate.TempDate();          
+            if (!IsTasks(validateFileAndStatus.FileName(), out tasks)) return;
             for (var i = 0; i < tasks.Length; i++)
             {
                 var splitTask = tasks[i].Split(' ');
