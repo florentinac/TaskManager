@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
-    [Serializable]
+    using System;
+    using System.Globalization;
+
     class Task
     {
         public enum Status
@@ -18,7 +12,7 @@ namespace TaskManager
         }
 
         private string taskName;
-        private DateTime? date;
+        private DateTime date;
         private Status status;
         private string description;
         private DateTime? duDate;
@@ -39,11 +33,9 @@ namespace TaskManager
         public string GetTaskString(Task task, int count)
         {
             var taskString = "[NewTask]" + " " + count + " " + task.taskName + " " + task.description + " "+ 
-                              task.date?.ToString("d",CultureInfo.InvariantCulture) + " " + task.duDate?.ToString("G", CultureInfo.InvariantCulture) + " " + task.status;
+                              task.date.ToString("d",CultureInfo.InvariantCulture) + " " + task.duDate?.ToString("G", CultureInfo.InvariantCulture) + " " + task.status;
             return taskString;
-
         }
-
 
         public static void StatusSaveTask(string fileName, Task newTask)
         {

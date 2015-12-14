@@ -1,24 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using TaskManager;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+
     class TaskManagerMain
     {       
         private static void Main(string[] args)
         {
-            //var dbConnection = new DataBaseConnection();
-            //dbConnection.DBConnection();
-
             string invokedVerb = null;
             object invokedVerbInstance = null;
-
 
             var options = new Options();
             TaskFunctionality taskManager = new TaskFunctionality();
@@ -37,9 +26,8 @@ namespace TaskManager
                 if (invokedVerb == "add")
                 {
                     var addSubOptions = (AddSubOptions) invokedVerbInstance;
-                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription,addSubOptions.AddDate, addSubOptions.AddDuDate, addSubOptions.GetFile);
-                    Console.WriteLine("The task " + taskManager.Count + " was successfuly added");
-
+                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription,addSubOptions.AddDate, addSubOptions.AddDuDate, addSubOptions.GetFile);                   
+                    return;
                 }
 
                 if (invokedVerb == "update")
@@ -48,35 +36,31 @@ namespace TaskManager
                     if(updateSubOptions.UpdateDate==null)
                         taskManager.UpdateStatus(updateSubOptions.GetId, updateSubOptions.GetStatus, updateSubOptions.GetFileName);
                     else taskManager.UpdateDate(updateSubOptions.GetId, updateSubOptions.UpdateDate, updateSubOptions.GetFileName);
-                  
+                    Console.Write("Update finished successfully");
+                    return;
                 }
 
                 if (invokedVerb == "get")
                 {
                     var getSubOptions = (GetSubOptions) invokedVerbInstance;
-
-                    taskManager.GetTask(getSubOptions.GetFile);
-                }
-
-                if (invokedVerb == "sort")
-                {
-                    var sortSubOptions = (SortSubOptions)invokedVerbInstance;
-                    taskManager.SortAscending("Tasks.txt");
-                    Console.WriteLine(" ");
-                    taskManager.SortDescending("Tasks.txt");
-                }
-
+                    if(getSubOptions.GetAscedingType == null && getSubOptions.GetDescendingType==null)
+                        taskManager.GetTask(getSubOptions.GetFile);
+                    else if(getSubOptions.GetAscedingType == null)
+                        taskManager.SortDescending(getSubOptions.GetFile, getSubOptions.GetDescendingType);
+                    else
+                    {
+                        taskManager.SortAscending(getSubOptions.GetFile, getSubOptions.GetAscedingType);
+                    }
+                    return;
+                }                
                 if (invokedVerb == "search")
                 {
                     var searchSubOptions = (SearchSubOptions)invokedVerbInstance;
-                   taskManager.Search(searchSubOptions.GetWord,searchSubOptions.GetFile);                 
+                    taskManager.Search(searchSubOptions.GetWord,searchSubOptions.GetFile);                  
                 }
              }
         
         }
-        
-       
-
     }
                    
 }

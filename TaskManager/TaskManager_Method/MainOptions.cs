@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using CommandLine;
-using CommandLine.Parsing;
+﻿using CommandLine;
 using CommandLine.Text;
 
 namespace TaskManager
@@ -28,7 +19,6 @@ namespace TaskManager
 
         [Option("duDate", HelpText = "Specifiy the du date for task, the format for date is: dd-MM-YYYY hh:mm:ss.ff ")]
         public string AddDuDate { get; set; }
-
     }
 
     public class UpdateSubOptions
@@ -51,16 +41,12 @@ namespace TaskManager
     {
         [Option('f', "fileName", HelpText = "Specify the fileName where are the Tasks")]
         public string GetFile { get; set; }
-    }
 
-    public class SortSubOptions
-    {
-        [Option('a', "asscending", HelpText = "Sort Ascending the Tasks by Date")]
-        public string GetAsscending { get; set; }
+        [Option('a', "asc", HelpText = "Specify sorting criteria (date, title, id)")]
+        public string GetAscedingType { get; set; }
 
-        [Option('d', "descending", HelpText = "Sort Descending the Tasks by Date")]
-        public string GetDescending { get; set; }
-
+        [Option('d', "desc", HelpText = "Specify sorting criteria (date, title, id)")]
+        public string GetDescendingType { get; set; }
     }
 
     public class SearchSubOptions
@@ -82,9 +68,6 @@ namespace TaskManager
 
         [VerbOption("get", HelpText = "Get the existents Tasks.")]
         public GetSubOptions GetParameters { get; set; }
-
-        [VerbOption("sort", HelpText = "Sort the Tasks.")]
-        public SortSubOptions GetSortParameters { get; set; }
 
         [VerbOption("search", HelpText = "Search a word in Tasks.")]
         public SearchSubOptions  GetSearchParameters{ get; set; }

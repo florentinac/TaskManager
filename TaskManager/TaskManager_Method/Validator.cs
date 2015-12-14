@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Schema;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+
     public class ValidatorNameAndDescrition
     {
         private string name;
@@ -55,7 +49,6 @@ namespace TaskManager
         public string Status()
         {
             return status ?? "Done";
-
         }
     }
 
@@ -87,26 +80,31 @@ namespace TaskManager
             {
                 tempDate = DateTime.Now;
                 Console.WriteLine("The Date is invalid, will be set to the current day");
+            }         
+            return tempDate;
+        }
+
+        public DateTime? DuTempDate()
+        {
+            DateTime tempDate;
+            if (duDate == null)
+                return null;
+            if (!DateTime.TryParse(duDate, out tempDate))
+            {
+                tempDate = DateTime.Now;
+                Console.WriteLine("The Date is invalid, will be set to the current day");
             }
             return tempDate;
         }
 
-        internal DateTime? DuTempDate()
+        public bool DuDate()
         {
-            if (duDate == null)
-                return null;
-
-            return TempDate();
-        }
-
-        internal static bool DuDate(DateTime? duDate, DateTime date)
-        {
-            var timeSpan = duDate - date;
-            if (timeSpan == null) return false;
-            var difference = (TimeSpan)timeSpan;
-            var days = difference.TotalDays;
-            if (!(days < 0)) return true;
-            Console.WriteLine("Date cannot be greater then DuDate");
+            var dateTime = TempDate();
+            var duDateTime = DuTempDate();
+            var timeSpan = duDateTime - dateTime;
+            if (timeSpan == null) return false;           
+            var days = ((TimeSpan)timeSpan).TotalDays;
+            if (!(days < 0)) return true;        
             return false;
         }
     }

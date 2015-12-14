@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.IO;
+
     public class TextFilePath
     {
         private string actualPath;

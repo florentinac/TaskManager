@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.IO;
+
     public class ClassIFileWriter : IFileWrite
     {
         private TextFilePath textFilePath = new TextFilePath();

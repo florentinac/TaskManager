@@ -1,102 +1,108 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Xml;
+    using System.Xml.Linq;
+    using System.Xml.Xsl;
+    using TaskManager_Method;
+
     public class CreateXMLDoc
     {
-        private string fileName;      
-     
+        private string fileName;
+        protected XDocument xml;
+
+        public CreateXMLDoc() { }
+
         public CreateXMLDoc(string fileName)
         {
-            //this.writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8);
-            this.fileName = fileName;
+            var validatePath = new TextFilePath();                    
+            this.fileName = validatePath.FilePath(fileName);
+
+            InitXMLDocument();
         }
 
-
-        public void AddNewNode(string taskName, string description, DateTime? date, DateTime? duDate, string status)
+        private void InitXMLDocument()
         {
-            if(!File.Exists(fileName))
-                CreatedXMLFile(taskName, description, date, duDate, status);
-            else
+            try
             {
-                //AppendNode();
+                xml = XDocument.Load(fileName);
             }
-           
-        }
-
-        public void CreateNode(string taskName, string description, DateTime? date, DateTime? duDate, string status, XmlTextWriter writer)
-        {
-            writer.WriteStartElement("Task");
-            writer.WriteStartElement("Id");
-            writer.WriteString("1");
-            writer.WriteEndElement();
-            writer.WriteStartElement("Title");
-            writer.WriteString(taskName);
-            writer.WriteEndElement();
-            writer.WriteStartElement("Description");
-            writer.WriteString(description);
-            writer.WriteEndElement();
-            writer.WriteStartElement("Date");
-            writer.WriteString(date.ToString());
-            writer.WriteEndElement();
-            writer.WriteStartElement("DuDate");
-            writer.WriteString(duDate.ToString());
-            writer.WriteEndElement();
-            writer.WriteStartElement("Status");
-            writer.WriteString(status);
-            writer.WriteEndElement();
-            writer.WriteEndElement();
-        }
-
-        public void AppendNode(string taskName, string description, DateTime? date, DateTime? duDate, string status)
-        {
-
-        }
-
-        public bool ExistXMLDoc()
-        {                 
-            return File.Exists(fileName);
-        }
-        public void CreatedXMLFile(string taskName, string description, DateTime? date, DateTime? duDate, string status)
-        {
-            var writer = new XmlTextWriter(fileName, System.Text.Encoding.UTF8);
-            writer.WriteStartDocument(true);
-            writer.Formatting = Formatting.Indented;
-            writer.Indentation = 2;
-            writer.WriteStartElement("TaskManager");
-            CreateNode(taskName, description, date, duDate, status, writer);
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Close();
-            Console.WriteLine("XML File created and the Task is Added! ");            
-        }
-
-        private static void ReadXml()
-        {
-            XmlDataDocument xmldoc = new XmlDataDocument();
-            XmlNodeList xmlnode;
-            int i = 0;
-            string str = null;
-            FileStream fs = new FileStream("product.xml", FileMode.Open, FileAccess.Read);
-            xmldoc.Load(fs);
-            xmlnode = xmldoc.GetElementsByTagName("Task");
-            for (i = 0; i < xmlnode.Count; i++)
+            catch (Exception)
             {
-                xmlnode[i].ChildNodes.Item(0).InnerText.Trim();
-                str = xmlnode[i].ChildNodes.Item(0).InnerText.Trim() + " " +
-                      xmlnode[i].ChildNodes.Item(1).InnerText.Trim() + " " +
-                      xmlnode[i].ChildNodes.Item(2).InnerText.Trim() + " " +
-                      xmlnode[i].ChildNodes.Item(3).InnerText.Trim() + " " +
-                      xmlnode[i].ChildNodes.Item(4).InnerText.Trim() + " " +
-                      xmlnode[i].ChildNodes.Item(5).InnerText.Trim();
-                Console.WriteLine(str);
+                var xmlFile = new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    new XComment("XML File for storing "));
+                xmlFile.Add(new XElement(GlobalConstants.TaskM));
+                xmlFile.Save(fileName);
+                xml = XDocument.Load(fileName);
             }
         }
+
+        public void ReadTasks()
+        {
+            var tasks = from c in xml.Root.Descendants(GlobalConstants.Task)
+                        select c.Element(GlobalConstants.Id).Value + " " +
+                               c.Element(GlobalConstants.Title).Value + " " +
+                               c.Element(GlobalConstants.Descr).Value + " " +
+                               c.Element(GlobalConstants.Date).Value + " " +
+                               c.Element(GlobalConstants.DuDate).Value + " " +
+                               c.Element(GlobalConstants.Status).Value;
+            foreach (var task in tasks)
+            {
+                Console.WriteLine(task);
+            }
+            DisplayHTML(fileName);
+        }
+
+        private void DisplayHTML(string input)
+        {
+            var xslt = new XslCompiledTransform(true);
+            xslt.Load("testhtml.xsl", XsltSettings.TrustedXslt, new XmlUrlResolver());
+            xslt.Transform(input, "test.html");
+        }
+
+        public void UpdateStatus(string id, string status)
+        {
+            var update = (from task in xml.Descendants(GlobalConstants.Task)
+                            where task.Element(GlobalConstants.Id).Value == id
+                            select task).Single();
+            if (update != null)
+            {
+                update.Element(GlobalConstants.Status).Value = status;
+            }
+            xml.Save(fileName);
+        }
+
+        public void UpdateDate(string id, DateTime date)
+        {
+            var update = (from task in xml.Descendants(GlobalConstants.Task)
+                               where task.Element(GlobalConstants.Id).Value == id
+                               select task).Single();
+            if (update != null)
+            {
+                update.Element(GlobalConstants.Date).Value = date.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+            }
+            xml.Save(fileName);
+        }
+
+        public void AddNewNode(string taskName, string description, DateTime date, DateTime? duDate, string status)
+        {
+            xml.Root.Add(new XElement(GlobalConstants.Task,
+                new XElement(GlobalConstants.Id, GetTaskCount()),
+                new XElement(GlobalConstants.Title, taskName),
+                new XElement(GlobalConstants.Descr, description),
+                new XElement(GlobalConstants.Date, date.ToString("d MMM yyyy", CultureInfo.InvariantCulture)),
+                new XElement(GlobalConstants.DuDate, duDate?.ToString("d MMM yyyy hh:mm:ss.ff tt", CultureInfo.InvariantCulture)),
+                new XElement(GlobalConstants.Status, status)));
+            xml.Save(fileName);
+        }
+
+        public int GetTaskCount()
+        {
+            var tasks = from task in xml.Descendants(GlobalConstants.Task) select task;
+            return tasks.Count()+1;
+        }              
     }
 }
