@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{57628141-7504-4350-A5BC-E005A6F92F3F}</ProjectGuid>
+    <ProjectGuid>{1759CCB5-9F09-4445-AA18-0F60E9B85E9E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TaskManager.Tests</RootNamespace>
@@ -35,16 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ColorCode, Version=1.0.1.62759, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ColorCode.1.0.1\lib\ColorCode.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="CommandLine, Version=1.9.71.2, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Should, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Should.1.1.20\lib\Should.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -64,19 +56,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ClassIStringTasks.cs" />
     <Compile Include="TaskManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ValidatorTests.cs" />
+    <Compile Include="VerifierTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaskManager\TaskManagerMain.csproj">
-      <Project>{9666157b-1470-405d-80c6-debffa888acf}</Project>
-      <Name>TaskManagerMain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TaskManager_Method\TaskFunctionality.csproj">
-      <Project>{8dd619c3-9d71-4a3b-8721-c0b499722c7d}</Project>
-      <Name>TaskFunctionality</Name>
+    <ProjectReference Include="..\TaskManager\TaskManager.csproj">
+      <Project>{8346487c-39a4-4860-91b4-1f3f6111ac24}</Project>
+      <Name>TaskManager</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
