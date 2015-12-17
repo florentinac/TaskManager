@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.Linq;
+
     public class TaskView: Repository
     {
         public TaskView(string filename):base(filename)
@@ -55,13 +52,13 @@ namespace TaskManager
                                   Name = task.Element(GlobalConstants.Title).Value,
                                   Description = task.Element(GlobalConstants.Descr).Value,
                                   Date = task.Element(GlobalConstants.Date).Value,
-                                  DuDate = task.Element(GlobalConstants.DuDate).Value,
+                                  DueDate = task.Element(GlobalConstants.DueDate).Value,
                                   Status = task.Element(GlobalConstants.Status).Value
                               };
             foreach (var sortedTask in sortedTasks)
             {
                 Console.WriteLine(sortedTask.Id + " " + sortedTask.Name + " " + sortedTask.Description + " " +
-                                 sortedTask.Date + " " + sortedTask.DuDate + " " + sortedTask.Status);
+                                 sortedTask.Date + " " + sortedTask.DueDate + " " + sortedTask.Status);
             }
         }
 
@@ -75,7 +72,7 @@ namespace TaskManager
                                   Name = task.Element(GlobalConstants.Title).Value,
                                   Description = task.Element(GlobalConstants.Descr).Value,
                                   Date = task.Element(GlobalConstants.Date).Value,
-                                  DuDate = task.Element(GlobalConstants.DuDate).Value,
+                                  DuDate = task.Element(GlobalConstants.DueDate).Value,
                                   Status = task.Element(GlobalConstants.Status).Value
                               };
             foreach (var sortedTask in sortedTasks)
@@ -94,7 +91,7 @@ namespace TaskManager
                                   Name = task.Element(GlobalConstants.Title).Value,
                                   Description = task.Element(GlobalConstants.Descr).Value,
                                   Date = task.Element(GlobalConstants.Date).Value,
-                                  DuDate = task.Element(GlobalConstants.DuDate).Value,
+                                  DuDate = task.Element(GlobalConstants.DueDate).Value,
                                   Status = task.Element(GlobalConstants.Status).Value
                               };
             foreach (var sortedTask in sortedTasks)
@@ -113,7 +110,7 @@ namespace TaskManager
                                   Name = task.Element(GlobalConstants.Title).Value,
                                   Description = task.Element(GlobalConstants.Descr).Value,
                                   Date = task.Element(GlobalConstants.Date).Value,
-                                  DuDate = task.Element(GlobalConstants.DuDate).Value,
+                                  DuDate = task.Element(GlobalConstants.DueDate).Value,
                                   Status = task.Element(GlobalConstants.Status).Value
                               };
             foreach (var sortedTask in sortedTasks)
@@ -132,7 +129,7 @@ namespace TaskManager
                                   Name = task.Element(GlobalConstants.Title).Value,
                                   Description = task.Element(GlobalConstants.Descr).Value,
                                   Date = task.Element(GlobalConstants.Date).Value,
-                                  DuDate = task.Element(GlobalConstants.DuDate).Value,
+                                  DuDate = task.Element(GlobalConstants.DueDate).Value,
                                   Status = task.Element(GlobalConstants.Status).Value
                               };
             foreach (var sortedTask in sortedTasks)
@@ -155,15 +152,8 @@ namespace TaskManager
                 Console.Write(task.Element(GlobalConstants.Title).Value);
                 Console.ResetColor();
                 Console.WriteLine(" " + task.Element(GlobalConstants.Descr).Value + " " + task.Element(GlobalConstants.Date).Value + " " +
-                              task.Element(GlobalConstants.DuDate).Value + " " + task.Element(GlobalConstants.Status).Value + " ");
+                              task.Element(GlobalConstants.DueDate).Value + " " + task.Element(GlobalConstants.Status).Value + " ");
             }
         }
-
-        //private void DisplayHTML(string input)
-        //{
-        //    var xslt = new XslCompiledTransform(true);
-        //    xslt.Load("testhtml.xsl", XsltSettings.TrustedXslt, new XmlUrlResolver());
-        //    xslt.Transform(input, "test.html");
-        //}
     }
 }

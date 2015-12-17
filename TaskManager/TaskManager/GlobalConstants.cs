@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
     public static class GlobalConstants
     {
@@ -20,7 +14,7 @@ namespace TaskManager
 
         public const string Date = "Date";
 
-        public const string DuDate = "DuDate";
+        public const string DueDate = "DueDate";
 
         public const string Status = "Status";
 

@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+
     public class TaskService
     {
-        //private string fileName;
         private Repository repository;
 
         public TaskService(string fileName)
         {
-            //this.fileName = fileName;
             this.repository = new Repository(fileName);
         }
 

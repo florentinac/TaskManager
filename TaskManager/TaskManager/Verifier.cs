@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
-    class VerifierNameAndDescription
+    using System;
+
+    public class VerifierNameAndDescription
     {
         private string name;
         private string description;
@@ -56,18 +52,18 @@ namespace TaskManager
         }
     }
 
-    public class VeifierDateAndDuDate
+    public class VerifierDateAndDueDate
     {
         private string date;
-        private string duDate;
+        private string dueDate;
 
-        public VeifierDateAndDuDate(string date, string duDate)
+        public VerifierDateAndDueDate(string date, string dueDate)
         {
             this.date = date;
-            this.duDate = duDate;
+            this.dueDate = dueDate;
         }
 
-        public VeifierDateAndDuDate(string date)
+        public VerifierDateAndDueDate(string date)
         {
             this.date = date;
         }
@@ -88,30 +84,33 @@ namespace TaskManager
             return tempDate;
         }
 
-        public DateTime? VerifyDuTempDate()
+        public DateTime? VerifyDueTempDate()
         {
             DateTime tempDate;
-            if (duDate == null)
+            if (dueDate == null)
                 return null;
-            if (!DateTime.TryParse(duDate, out tempDate))
+            if (!DateTime.TryParse(dueDate, out tempDate))
             {
                 tempDate = DateTime.Now;
-                Console.WriteLine("The Date is invalid, will be set to the current day");
+                //Console.WriteLine("The Date is invalid, will be set to the current day");
             }
             return tempDate;
         }
 
-        public bool VerifyDuDate()
+        public bool VerifyDueDate()
         {
             var dateTime = VerifyTempDate();
-            var duDateTime = VerifyDuTempDate();
-            if (duDateTime != null)
+            if (dueDate != null)
             {
-                var timeSpan = duDateTime - dateTime;
-                if (timeSpan == null) return false;
-                var days = ((TimeSpan) timeSpan).TotalDays;
-                if (!(days < 0)) return true;
-                return false;
+                DateTime dueDateTime;
+                if (!DateTime.TryParse(dueDate, out dueDateTime))
+                {
+                    dueDateTime = DateTime.Now;
+                    Console.WriteLine("The Date is invalid, will be set to the current day");
+                }
+                var timeSpan = dueDateTime - dateTime;
+                var days = timeSpan.TotalDays;
+                return !(days < 0);
             }
             return true;
         }

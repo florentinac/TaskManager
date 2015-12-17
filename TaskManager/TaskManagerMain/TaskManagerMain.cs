@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using TaskManager;
-
-namespace TaskManagerMain
+﻿namespace TaskManagerMain
 {
+    using System;
+
     class TaskManagerMain
     {
         static void Main(string[] args)
@@ -32,7 +26,7 @@ namespace TaskManagerMain
                 if (invokedVerb == "add")
                 {
                     var addSubOptions = (AddSubOptions)invokedVerbInstance;
-                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription, addSubOptions.AddDate, addSubOptions.AddDuDate, addSubOptions.GetFile);
+                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription, addSubOptions.AddDate, addSubOptions.AddDueDate, addSubOptions.GetFile);
                     return;
                 }
 

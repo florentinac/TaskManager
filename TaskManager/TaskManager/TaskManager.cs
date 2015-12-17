@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.Collections.Generic;
+
     public class TaskManager
     {
         private List<Task> tasks = new List<Task>();
 
-        public void Add(string taskName, string description, string txtDate, string txtDuDate, string fileName)
+        public void Add(string taskName, string description, string txtDate, string txtDueDate, string fileName)
         {
             var validateNameAndDescr = new VerifierNameAndDescription(taskName, description);
             if (!validateNameAndDescr.VerifyName())
                 return;
-            var validateDateAndDuDate = new VeifierDateAndDuDate(txtDate, txtDuDate);
+            var validateDateAndDuDate = new VerifierDateAndDueDate(txtDate, txtDueDate);
             var tempDate = validateDateAndDuDate.VerifyTempDate();
-            var duDate = validateDateAndDuDate.VerifyDuDate();
-            if (duDate)
+            var dueDate = validateDateAndDuDate.VerifyDueDate();
+            if (dueDate)
             {
-                var tempDuDate = validateDateAndDuDate.VerifyDuTempDate();
+                var tempDueDate = validateDateAndDuDate.VerifyDueTempDate();
                 var validateFileAndStatus = new VerifierFileAndStatus(fileName);
-                var newTask = new Task(taskName, validateNameAndDescr.VerifyDescription(), tempDate, tempDuDate,
+                var newTask = new Task(taskName, validateNameAndDescr.VerifyDescription(), tempDate, tempDueDate,
                     GlobalConstants.ToDo);
                 tasks.Add(newTask);
                 var service = new TaskService(validateFileAndStatus.VerifyFileName());
@@ -53,7 +50,7 @@ namespace TaskManager
         {
             var validateFileAndStatus = new VerifierFileAndStatus(fileName);
             fileName = validateFileAndStatus.VerifyFileName();
-            var validateDateAndDuDate = new VeifierDateAndDuDate(date);
+            var validateDateAndDuDate = new VerifierDateAndDueDate(date);
             var tempdate = validateDateAndDuDate.VerifyTempDate();
             var xml = new Repository(fileName);
             xml.UpdateDate(id, tempdate);

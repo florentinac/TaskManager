@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.IO;
+
     class PathClass
     {
         private string actualPath;
@@ -15,11 +11,6 @@ namespace TaskManager
         {
             this.actualPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
         }
-
-        //public string GetActualPath()
-        //{
-        //    return AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-        //}
 
         public bool ValidatePath(string name)
         {

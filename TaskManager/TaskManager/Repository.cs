@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Xsl;
-
-namespace TaskManager
+﻿namespace TaskManager
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Xml.Linq;
+
     public class Repository
     {
         private string fileName;
@@ -49,21 +44,13 @@ namespace TaskManager
                                c.Element(GlobalConstants.Title).Value + " " +
                                c.Element(GlobalConstants.Descr).Value + " " +
                                c.Element(GlobalConstants.Date).Value + " " +
-                               c.Element(GlobalConstants.DuDate).Value + " " +
+                               c.Element(GlobalConstants.DueDate).Value + " " +
                                c.Element(GlobalConstants.Status).Value;
             foreach (var task in tasks)
             {
                 Console.WriteLine(task);
-            }
-            //DisplayHTML(fileName);
+            }         
         }
-
-        //private void DisplayHTML(string input)
-        //{
-        //    var xslt = new XslCompiledTransform(true);
-        //    xslt.Load("testhtml.xsl", XsltSettings.TrustedXslt, new XmlUrlResolver());
-        //    xslt.Transform(input, "test.html");
-        //}
 
         public void UpdateStatus(string id, string status)
         {
@@ -96,7 +83,7 @@ namespace TaskManager
                 new XElement(GlobalConstants.Title, taskName),
                 new XElement(GlobalConstants.Descr, description),
                 new XElement(GlobalConstants.Date, date.ToString("d MMM yyyy", CultureInfo.InvariantCulture)),
-                new XElement(GlobalConstants.DuDate, duDate?.ToString("d MMM yyyy hh:mm:ss.ff tt", CultureInfo.InvariantCulture)),
+                new XElement(GlobalConstants.DueDate, duDate?.ToString("d MMM yyyy hh:mm:ss.ff tt", CultureInfo.InvariantCulture)),
                 new XElement(GlobalConstants.Status, status)));
             xml.Save(fileName);
         }

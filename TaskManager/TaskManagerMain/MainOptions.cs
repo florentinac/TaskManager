@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommandLine;
-using CommandLine.Text;
-
-namespace TaskManagerMain
+﻿namespace TaskManagerMain
 {
+    using CommandLine;
+    using CommandLine.Text;
+
     public class AddSubOptions
     {
         [Option('m', "message", Required = true, HelpText = "Specifiy the task to be added")]
         public string AddMessage { get; set; }
 
-        [Option('d', "date", HelpText = "Specifiy or not the date for task, the format for date is: dd-MM-yyyy")]
+        [Option('d', "date", HelpText = "Specifiy or not the date for task, the format for date is: MM-dd-yyyy")]
         public string AddDate { get; set; }
 
         [Option('f', "fileName", HelpText = "Specifiy or not the file for save the Tasks")]
@@ -22,8 +17,8 @@ namespace TaskManagerMain
         [Option("description", HelpText = "Specifiy the description of task")]
         public string AddDescription { get; set; }
 
-        [Option("duDate", HelpText = "Specifiy the du date for task, the format for date is: dd-MM-YYYY hh:mm:ss.ff ")]
-        public string AddDuDate { get; set; }
+        [Option("dueDate", HelpText = "Specifiy the du date for task, the format for date is: MM-dd-YYYY hh:mm:ss.ff ")]
+        public string AddDueDate { get; set; }
     }
 
     public class UpdateSubOptions
@@ -32,7 +27,7 @@ namespace TaskManagerMain
         [Option("id", Required = true, HelpText = "Specifiy the task id")]
         public string GetId { get; set; }
 
-        [Option('d', "date", HelpText = "Change Due Date, format for date dd - MM - yyyy")]
+        [Option('d', "date", HelpText = "Change Due Date, format for date MM-dd-yyyy")]
         public string UpdateDate { get; set; }
 
         [Option('s', "status", HelpText = "Update status from ToDo to Done")]
