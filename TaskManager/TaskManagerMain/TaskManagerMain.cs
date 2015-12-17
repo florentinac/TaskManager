@@ -26,7 +26,7 @@
                 if (invokedVerb == "add")
                 {
                     var addSubOptions = (AddSubOptions)invokedVerbInstance;
-                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription, addSubOptions.AddDate, addSubOptions.AddDueDate, addSubOptions.GetFile);
+                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription, addSubOptions.AddDate, addSubOptions.AddDueDate, addSubOptions.GetFile, addSubOptions.GetTaskCategory);
                     return;
                 }
 
@@ -42,15 +42,14 @@
 
                 if (invokedVerb == "get")
                 {
-                    var getSubOptions = (GetSubOptions)invokedVerbInstance;
-                    if (getSubOptions.GetAscedingType == null && getSubOptions.GetDescendingType == null)
+                    var getSubOptions = (GetSubOptions) invokedVerbInstance;
+                    if (getSubOptions.GetAscedingType == null && getSubOptions.GetDescendingType == null && getSubOptions.GetCategoryType==null)
                         taskManager.GetTask(getSubOptions.GetFile);
-                    else if (getSubOptions.GetAscedingType == null)
+                    else if (getSubOptions.GetDescendingType != null)
                         taskManager.SortDescending(getSubOptions.GetFile, getSubOptions.GetDescendingType);
-                    else
-                    {
+                    else if (getSubOptions.GetAscedingType !=null)
                         taskManager.SortAscending(getSubOptions.GetFile, getSubOptions.GetAscedingType);
-                    }
+                    else taskManager.GetTaskByCategory(getSubOptions.GetFile,getSubOptions.GetCategoryType);
                     return;
                 }
                 if (invokedVerb == "search")

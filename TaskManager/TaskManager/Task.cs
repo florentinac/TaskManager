@@ -10,18 +10,20 @@
         private string status;
         private string description;
         private DateTime? dueDate;
+        private string category;
 
         public Task()
         {
         }
 
-        public Task(string taskName, string description, DateTime date, DateTime? dueDate, string status)
+        public Task(string taskName, string description, DateTime date, DateTime? dueDate, string status, string category)
         {
             this.taskName = taskName;
             this.description = description;
             this.date = date;
             this.dueDate = dueDate;
             this.status = status;
+            this.category = category;
         }
 
         public string GetTaskString(Task task, int count)
@@ -33,7 +35,7 @@
 
         public void Save(Repository repo)
         {
-            repo.AddTask(taskName, description, date, dueDate, status);
+            repo.AddTask(taskName, description, date, dueDate, status, category);
         }
     }
 }

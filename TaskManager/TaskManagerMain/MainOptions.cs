@@ -19,6 +19,9 @@
 
         [Option("dueDate", HelpText = "Specifiy the du date for task, the format for date is: MM-dd-YYYY hh:mm:ss.ff ")]
         public string AddDueDate { get; set; }
+
+        [Option('c', "category", Required = true, HelpText = "Specifiy the task category")]
+        public string GetTaskCategory { get; set; }
     }
 
     public class UpdateSubOptions
@@ -47,6 +50,9 @@
 
         [Option('d', "desc", HelpText = "Specify sorting criteria (date, title, id)")]
         public string GetDescendingType { get; set; }
+
+        [Option('c', "category", HelpText = "Specify the tasks category")]
+        public string GetCategoryType { get; set; }
     }
 
     public class SearchSubOptions

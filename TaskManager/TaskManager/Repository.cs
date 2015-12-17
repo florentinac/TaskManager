@@ -76,16 +76,32 @@
             xml.Save(fileName);
         }
 
-        public void AddTask(string taskName, string description, DateTime date, DateTime? duDate, string status)
+        public void AddTask(string taskName, string description, DateTime date, DateTime? duDate, string status, string category)
         {
-            xml.Root.Add(new XElement(GlobalConstants.Task,
-                new XElement(GlobalConstants.Id, GetTaskCount()),
-                new XElement(GlobalConstants.Title, taskName),
-                new XElement(GlobalConstants.Descr, description),
-                new XElement(GlobalConstants.Date, date.ToString("d MMM yyyy", CultureInfo.InvariantCulture)),
-                new XElement(GlobalConstants.DueDate, duDate?.ToString("d MMM yyyy hh:mm:ss.ff tt", CultureInfo.InvariantCulture)),
-                new XElement(GlobalConstants.Status, status)));
+            var newElement = new XElement(GlobalConstants.Task,
+                   new XElement(GlobalConstants.Id, GetTaskCount()),
+                   new XElement(GlobalConstants.Title, taskName),
+                   new XElement(GlobalConstants.Descr, description),
+                   new XElement(GlobalConstants.Date, date.ToString("d MMM yyyy", CultureInfo.InvariantCulture)),
+                   new XElement(GlobalConstants.DueDate,
+                       duDate?.ToString("d MMM yyyy hh:mm:ss.ff tt", CultureInfo.InvariantCulture)),
+                   new XElement(GlobalConstants.Status, status));
+
+            AddNewElement(category, newElement);           
             xml.Save(fileName);
+        }
+
+        private void AddNewElement(string category, XElement newElement)
+        {
+            if (xml.Root.Descendants(category).Any())
+            {
+                var root = xml.Root;
+                root.Element(category).Add(newElement);
+            }
+            else
+            {
+                xml.Root.Add(new XElement(category, newElement));
+            }
         }
 
         private int GetTaskCount()

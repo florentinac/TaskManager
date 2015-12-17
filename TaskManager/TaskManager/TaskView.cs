@@ -1,4 +1,6 @@
-﻿namespace TaskManager
+﻿using System.Xml.Linq;
+
+namespace TaskManager
 {
     using System;
     using System.Linq;
@@ -151,8 +153,23 @@
                 Console.BackgroundColor = ConsoleColor.Blue;
                 Console.Write(task.Element(GlobalConstants.Title).Value);
                 Console.ResetColor();
-                Console.WriteLine(" " + task.Element(GlobalConstants.Descr).Value + " " + task.Element(GlobalConstants.Date).Value + " " +
-                              task.Element(GlobalConstants.DueDate).Value + " " + task.Element(GlobalConstants.Status).Value + " ");
+                Console.WriteLine(" " + task.Element(GlobalConstants.Descr).Value + " " +
+                                  task.Element(GlobalConstants.Date).Value + " " +
+                                  task.Element(GlobalConstants.DueDate).Value + " " +
+                                  task.Element(GlobalConstants.Status).Value);
+            }
+        }
+
+        public void ViewTaskByCategory(string category)
+        {
+            foreach (var task in xml.Descendants(category).Descendants(GlobalConstants.Task))
+            {
+                Console.WriteLine(task.Element(GlobalConstants.Id).Value + " " + 
+                                  task.Element(GlobalConstants.Title).Value + " " + 
+                                  task.Element(GlobalConstants.Descr).Value + " " + 
+                                  task.Element(GlobalConstants.Date).Value + " " +
+                                  task.Element(GlobalConstants.DueDate).Value + " " + 
+                                  task.Element(GlobalConstants.Status).Value);
             }
         }
     }

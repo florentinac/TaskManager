@@ -7,7 +7,7 @@
     {
         private List<Task> tasks = new List<Task>();
 
-        public void Add(string taskName, string description, string txtDate, string txtDueDate, string fileName)
+        public void Add(string taskName, string description, string txtDate, string txtDueDate, string fileName, string category)
         {
             var validateNameAndDescr = new VerifierNameAndDescription(taskName, description);
             if (!validateNameAndDescr.VerifyName())
@@ -20,7 +20,7 @@
                 var tempDueDate = validateDateAndDuDate.VerifyDueTempDate();
                 var validateFileAndStatus = new VerifierFileAndStatus(fileName);
                 var newTask = new Task(taskName, validateNameAndDescr.VerifyDescription(), tempDate, tempDueDate,
-                    GlobalConstants.ToDo);
+                    GlobalConstants.ToDo, category);
                 tasks.Add(newTask);
                 var service = new TaskService(validateFileAndStatus.VerifyFileName());
                 service.AddTask(newTask);
@@ -70,6 +70,14 @@
             fileName = validateFileAndStatus.VerifyFileName();
             var view= new TaskView(fileName);
             view.SortDesc(sortBy);
+        }
+
+        public void GetTaskByCategory(string fileName, string category)
+        {
+            var validateFileAndStatus = new VerifierFileAndStatus(fileName);
+            fileName = validateFileAndStatus.VerifyFileName();
+            var view = new TaskView(fileName);
+            view.ViewTaskByCategory(category);
         }
 
         public void Search(string word, string fileName)

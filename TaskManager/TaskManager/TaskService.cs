@@ -31,9 +31,9 @@
             task.Save(repository);
         }
 
-        public void Add(string taskName, string description, DateTime date, DateTime? dueDate, string status)
-        {
-            repository.AddTask(taskName, description, date, dueDate, status);
-        }
+        //public void Add(string taskName, string description, DateTime date, DateTime? dueDate, string status)
+        //{
+        //    repository.AddTask(taskName, description, date, dueDate, status);
+        //}
     }
 }
