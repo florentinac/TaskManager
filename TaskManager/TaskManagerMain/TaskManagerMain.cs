@@ -23,39 +23,33 @@
             }
             if (invokedVerbInstance != null)
             {
-                if (invokedVerb == "add")
+                switch (invokedVerb)
                 {
-                    var addSubOptions = (AddSubOptions)invokedVerbInstance;
-                    taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription, addSubOptions.AddDate, addSubOptions.AddDueDate, addSubOptions.GetFile, addSubOptions.GetTaskCategory);
-                    return;
-                }
-
-                if (invokedVerb == "update")
-                {
-                    var updateSubOptions = (UpdateSubOptions)invokedVerbInstance;
-                    if (updateSubOptions.UpdateDate == null)
-                        taskManager.UpdateStatus(updateSubOptions.GetId, updateSubOptions.GetStatus, updateSubOptions.GetFileName);
-                    else taskManager.UpdateDate(updateSubOptions.GetId, updateSubOptions.UpdateDate, updateSubOptions.GetFileName);
-                    Console.Write("Update finished successfully");
-                    return;
-                }
-
-                if (invokedVerb == "get")
-                {
-                    var getSubOptions = (GetSubOptions) invokedVerbInstance;
-                    if (getSubOptions.GetAscedingType == null && getSubOptions.GetDescendingType == null && getSubOptions.GetCategoryType==null)
-                        taskManager.GetTask(getSubOptions.GetFile);
-                    else if (getSubOptions.GetDescendingType != null)
-                        taskManager.SortDescending(getSubOptions.GetFile, getSubOptions.GetDescendingType);
-                    else if (getSubOptions.GetAscedingType !=null)
-                        taskManager.SortAscending(getSubOptions.GetFile, getSubOptions.GetAscedingType);
-                    else taskManager.GetTaskByCategory(getSubOptions.GetFile,getSubOptions.GetCategoryType);
-                    return;
-                }
-                if (invokedVerb == "search")
-                {
-                    var searchSubOptions = (SearchSubOptions)invokedVerbInstance;
-                    taskManager.Search(searchSubOptions.GetWord, searchSubOptions.GetFile);
+                    case "add":
+                        var addSubOptions = (AddSubOptions)invokedVerbInstance;
+                        taskManager.Add(addSubOptions.AddMessage, addSubOptions.AddDescription, addSubOptions.AddDate, addSubOptions.AddDueDate, addSubOptions.GetFile, addSubOptions.GetTaskCategory);
+                        return;
+                    case "update":
+                        var updateSubOptions = (UpdateSubOptions)invokedVerbInstance;
+                        if (updateSubOptions.UpdateDate == null)
+                            taskManager.UpdateStatus(updateSubOptions.GetId, updateSubOptions.GetStatus, updateSubOptions.GetFileName);
+                        else taskManager.UpdateDate(updateSubOptions.GetId, updateSubOptions.UpdateDate, updateSubOptions.GetFileName);
+                        Console.Write("Update finished successfully");
+                        return;
+                    case "get":
+                        var getSubOptions = (GetSubOptions) invokedVerbInstance;
+                        if (getSubOptions.GetAscedingType == null && getSubOptions.GetDescendingType == null && getSubOptions.GetCategoryType==null)
+                            taskManager.GetTask(getSubOptions.GetFile);
+                        else if (getSubOptions.GetDescendingType != null)
+                            taskManager.SortDescending(getSubOptions.GetFile, getSubOptions.GetDescendingType);
+                        else if (getSubOptions.GetAscedingType !=null)
+                            taskManager.SortAscending(getSubOptions.GetFile, getSubOptions.GetAscedingType);
+                        else taskManager.GetTaskByCategory(getSubOptions.GetFile,getSubOptions.GetCategoryType);
+                        return;
+                    case "search":
+                        var searchSubOptions = (SearchSubOptions)invokedVerbInstance;
+                        taskManager.Search(searchSubOptions.GetWord, searchSubOptions.GetFile);
+                        break;
                 }
             }
         }

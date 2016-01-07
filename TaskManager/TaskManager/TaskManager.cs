@@ -33,8 +33,8 @@
         {
             var validateFileName = new VerifierFileAndStatus(fileName);
             fileName = validateFileName.VerifyFileName();
-            var xml = new Repository(fileName);
-            xml.GetTasks();
+            var xml = new XMLRepository(fileName);
+           // xml.GetTasks();
         }
 
         public void UpdateStatus(string id, string status, string fileName)
@@ -42,8 +42,8 @@
             var validateFileAndStatus = new VerifierFileAndStatus(fileName, status);
             status = validateFileAndStatus.VerifyStatus();
             fileName = validateFileAndStatus.VerifyFileName();
-            var xml = new Repository(fileName);
-            xml.UpdateStatus(id, status);
+            var xml = new XMLRepository(fileName);
+           // xml.UpdateStatus(id, status);
         }
 
         public void UpdateDate(string id, string date, string fileName)
@@ -52,8 +52,8 @@
             fileName = validateFileAndStatus.VerifyFileName();
             var validateDateAndDuDate = new VerifierDateAndDueDate(date);
             var tempdate = validateDateAndDuDate.VerifyTempDate();
-            var xml = new Repository(fileName);
-            xml.UpdateDate(id, tempdate);
+            var xml = new XMLRepository(fileName);
+           // xml.UpdateDate(id, tempdate);
         }
 
         public void SortAscending(string fileName, string sortBy)

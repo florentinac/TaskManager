@@ -1,39 +1,36 @@
-﻿namespace TaskManager
+﻿using System.Collections.Generic;
+
+namespace TaskManager
 {
     using System;
 
     public class TaskService
     {
-        private Repository repository;
+        private XMLRepository repository;
 
         public TaskService(string fileName)
         {
-            this.repository = new Repository(fileName);
+            this.repository = new XMLRepository(fileName);
         }
 
-        public void GetTasks()
+        public IEnumerable<Task> GetAllTasks()
         {
-            repository.GetTasks();
+            return repository.GetAllTask();
         }
 
-        public void UpdateStatus(string id, string status)
+        public void UpdateStatus(int id, string status)
         {
             repository.UpdateStatus(id, status);
         }
 
-        public void UpdateDate(string id, DateTime date)
+        public void UpdateDate(int id, DateTime date)
         {
             repository.UpdateDate(id, date);
         }
 
         public void AddTask(Task task)
         {
-            task.Save(repository);
+           repository.AddTask(task);
         }
-
-        //public void Add(string taskName, string description, DateTime date, DateTime? dueDate, string status)
-        //{
-        //    repository.AddTask(taskName, description, date, dueDate, status);
-        //}
     }
 }

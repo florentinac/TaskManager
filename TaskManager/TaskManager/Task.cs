@@ -1,15 +1,27 @@
-﻿namespace TaskManager
+﻿
+namespace TaskManager
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization;
+    using System.Xml;
     using System.Globalization;
 
-    public class Task
+
+    [DataContract(Name = "TaskManager", Namespace = "http://www.contoso.com")]
+    public class Task : IExtensibleDataObject
     {
+        [DataMember]
         private string taskName;
-        private DateTime date;
-        private string status;
+        [DataMember]
         private string description;
+        [DataMember]
+        private DateTime date;
+        [DataMember]
         private DateTime? dueDate;
+        [DataMember]
+        private string status;             
+        [DataMember]
         private string category;
 
         public Task()
@@ -26,16 +38,23 @@
             this.category = category;
         }
 
-        public string GetTaskString(Task task, int count)
+        private ExtensionDataObject extensionData_Value;
+
+        public ExtensionDataObject ExtensionData
         {
-            var taskString = "[NewTask]" + " " + count + " " + task.taskName + " " + task.description + " " +
-                              task.date.ToString("d", CultureInfo.InvariantCulture) + " " + task.dueDate?.ToString("G", CultureInfo.InvariantCulture) + " " + task.status;
-            return taskString;
+            get
+            {
+                return extensionData_Value;
+            }
+            set
+            {
+                extensionData_Value = value;
+            }
         }
 
-        public void Save(Repository repo)
-        {
-            repo.AddTask(taskName, description, date, dueDate, status, category);
-        }
+        //public void Save(XMLRepository repo)
+        //{
+        //    repo.AddTask(taskName, description, date, dueDate, status, category);
+        //}
     }
 }
